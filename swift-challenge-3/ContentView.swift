@@ -8,8 +8,9 @@
 import SwiftUI
 struct ContentView : View {
     @State var startDate: Date?
-        @State var isAnimationPaused = true
-        @State var lastUpdate: Date?
+    @State var isAnimationPaused = true
+    @State var lastUpdate: Date?
+    @State var currentTime: Date?
 
         var body: some View {
             switch isAnimationPaused {
@@ -19,19 +20,19 @@ struct ContentView : View {
                 Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
             }
             HStack {
-                Button("Start") {
-                    startDate = .now
-                    isAnimationPaused = false
+                Button(isAnimationPaused ? "Start" : "Stop") {
+                    
+                    if isAnimationPaused == true {
+                        isAnimationPaused = false
+                    } else {
+                        isAnimationPaused = true
+                    }
+                    
+                    
                 }
                 .buttonStyle(.bordered)
-                .tint(.green)
-                .disabled(isAnimationPaused == false)
-                Button("Stop") {
-                    isAnimationPaused = true
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
-                .disabled(isAnimationPaused)
+                .tint(isAnimationPaused ? .green : .red)
+                
             }
         }
 }
