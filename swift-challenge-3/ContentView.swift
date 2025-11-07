@@ -11,8 +11,15 @@ struct ContentView : View {
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
     @State var currentTime: Date?
-
-        var body: some View {
+    
+    var body: some View {
+        
+        VStack{
+            NavigationLink("Goal Time Left:"){
+                GoalsView()
+            }
+            
+            
             HStack {
                 Button {
                     
@@ -39,6 +46,7 @@ struct ContentView : View {
                 
             }
         }
+    }
 }
 
 #Preview {
