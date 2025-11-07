@@ -8,10 +8,24 @@
 import SwiftUI
 
 struct GoalsView: View {
+    private let timer = Timer-publish(every: 1, on: main, in: -common).autoconnect() // 1
+    @State private var tick: Int = 0
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+       
+        VStack {
+        Text("\(tick)")
+        }
+        .onReceive(timer) { - in 
+        tick += 1
+        // Update
+        }
+        .onDisappear {
+        // Stop
+        timer.upstream.connect().cancel() // 3
     }
 }
+
 
 #Preview {
     GoalsView()
