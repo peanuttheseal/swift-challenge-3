@@ -16,7 +16,7 @@ struct ContentView : View {
         NavigationStack {
             VStack{
                 
-                NavigationLink("Goal Time Left:"){
+                NavigationLink("Goal Time Left"){
                     GoalsView()
                 }
                 
