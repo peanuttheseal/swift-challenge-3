@@ -14,38 +14,44 @@ struct ContentView : View {
     
     var body: some View {
         NavigationStack {
-            VStack{
-                
-                NavigationLink("Goal Time Left"){
-                    GoalsView()
-                }
-                
-                
-                
-                HStack {
-                    Button {
+            ZStack{
+                Color(red: 255/255, green: 244/255, blue: 209/255)
+                    .ignoresSafeArea()
+                VStack{
+                    
+                    NavigationLink("Goal Time Left"){
+                        GoalsView()
+                    }
+                    
+                    
+                    
+                    HStack {
                         
-                        if isAnimationPaused == true {
-                            startDate = .now
-                            isAnimationPaused = false
-                        } else {
-                            isAnimationPaused = true
+                        
+                        Button {
+                            
+                            if isAnimationPaused == true {
+                                startDate = .now
+                                isAnimationPaused = false
+                            } else {
+                                isAnimationPaused = true
+                            }
+                            
+                            
+                        } label: {
+                            Image(systemName: isAnimationPaused ? "play.fill" : "pause.fill")
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(isAnimationPaused ? .green : .red)
+                        
+                        switch isAnimationPaused {
+                        case true:
+                            Text(Date.now, format: .stopwatch(startingAt: startDate ?? .now))
+                        case false:
+                            Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
                         }
                         
-                        
-                    } label: {
-                        Image(systemName: isAnimationPaused ? "play.fill" : "pause.fill")
                     }
-                    .buttonStyle(.bordered)
-                    .tint(isAnimationPaused ? .green : .red)
-                    
-                    switch isAnimationPaused {
-                    case true:
-                        Text(Date.now, format: .stopwatch(startingAt: startDate ?? .now))
-                    case false:
-                        Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
-                    }
-                    
                 }
             }
         }
