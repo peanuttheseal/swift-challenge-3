@@ -42,7 +42,7 @@ struct ContentView : View {
                             Image(systemName: isAnimationPaused ? "play.fill" : "pause.fill")
                         }
                         .buttonStyle(.bordered)
-                        .tint(isAnimationPaused ? .green : .red)
+                        .tint(Color(red: 245/255, green: 182/255, blue: 120/255))
                         
                         switch isAnimationPaused {
                         case true:
