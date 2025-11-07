@@ -13,12 +13,6 @@ struct ContentView : View {
     @State var currentTime: Date?
 
         var body: some View {
-            switch isAnimationPaused {
-            case true:
-                Text(Date.now, format: .stopwatch(startingAt: startDate ?? .now))
-            case false:
-                Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
-            }
             HStack {
                 Button {
                     
@@ -35,6 +29,13 @@ struct ContentView : View {
                 }
                 .buttonStyle(.bordered)
                 .tint(isAnimationPaused ? .green : .red)
+                
+                switch isAnimationPaused {
+                case true:
+                    Text(Date.now, format: .stopwatch(startingAt: startDate ?? .now))
+                case false:
+                    Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
+                }
                 
             }
         }
