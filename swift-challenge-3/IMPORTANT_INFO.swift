@@ -17,7 +17,8 @@ struct swift_challenge_3App: App {
 }
 
 // MAIN COLOUR SCHEME
-    // #FFF4D1 -> Main colour, super super pale yellow, use as a backgroumd
+    // #FFFCF4 -> Main colour, super super super pale yellow, use as background
+    // #FFF4D1 -> Main colour, pale yellow
     // #F5B678 -> Side colour, medium orange, use for the goals ring
     // #F5C978 -> Side colour, light-medium orange
     // #F5E778 -> Side colour, yellow tinted orange
