@@ -20,15 +20,18 @@ struct ContentView : View {
                 Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
             }
             HStack {
-                Button(isAnimationPaused ? "Start" : "Stop") {
+                Button {
                     
                     if isAnimationPaused == true {
+                        startDate = .now
                         isAnimationPaused = false
                     } else {
                         isAnimationPaused = true
                     }
                     
                     
+                } label: {
+                    Image(systemName: isAnimationPaused ? "play.fill" : "pause.fill")
                 }
                 .buttonStyle(.bordered)
                 .tint(isAnimationPaused ? .green : .red)
