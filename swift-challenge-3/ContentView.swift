@@ -13,38 +13,40 @@ struct ContentView : View {
     @State var currentTime: Date?
     
     var body: some View {
-        
-        VStack{
-            
-            NavigationLink("Goal Time Left:"){
-                GoalsView()
-            }
-            
-            
-            HStack {
-                Button {
+        NavigationStack {
+            VStack{
+                
+                NavigationLink("Goal Time Left:"){
+                    GoalsView()
+                }
+                
+                
+                
+                HStack {
+                    Button {
+                        
+                        if isAnimationPaused == true {
+                            startDate = .now
+                            isAnimationPaused = false
+                        } else {
+                            isAnimationPaused = true
+                        }
+                        
+                        
+                    } label: {
+                        Image(systemName: isAnimationPaused ? "play.fill" : "pause.fill")
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(isAnimationPaused ? .green : .red)
                     
-                    if isAnimationPaused == true {
-                        startDate = .now
-                        isAnimationPaused = false
-                    } else {
-                        isAnimationPaused = true
+                    switch isAnimationPaused {
+                    case true:
+                        Text(Date.now, format: .stopwatch(startingAt: startDate ?? .now))
+                    case false:
+                        Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
                     }
                     
-                    
-                } label: {
-                    Image(systemName: isAnimationPaused ? "play.fill" : "pause.fill")
                 }
-                .buttonStyle(.bordered)
-                .tint(isAnimationPaused ? .green : .red)
-                
-                switch isAnimationPaused {
-                case true:
-                    Text(Date.now, format: .stopwatch(startingAt: startDate ?? .now))
-                case false:
-                    Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
-                }
-                
             }
         }
     }
