@@ -16,42 +16,38 @@ struct GoalsView: View {
     @State private var elapsedTime: Double = 0.0
     
     // UI Config
-    private let themeColor: Color = Color(red: 135/255, green: 207/255, blue: 237/255)
+    private let themeColor: Color = Color(red: 245/255, green: 183/255, blue: 120/255)
     private let circlePadding: CGFloat = 30
     
     var body: some View {
         ZStack{
-            Color(red: 255/255, green: 244/255, blue: 209/255)
+            Color(red: 255/255, green: 252/255, blue: 244/255)
                 .ignoresSafeArea()
             VStack {
                 Circle()
-                    .strokeBorder(lineWidth: 24)
-                    .overlay {
-                        Circle()
-                            .trim(from: 0.0, to: elapsedTime/endTime)
-                            .stroke(themeColor, style: StrokeStyle(lineWidth: 15.0, lineCap: .square, lineJoin: .round))
-                            .rotationEffect(Angle(degrees: 270))
-                            .animation(.easeInOut(duration: 1.0), value: elapsedTime)
-                    }
-                    .padding(circlePadding)
-                
+                    .trim(from: 0.0, to: elapsedTime/endTime)
+                    .stroke(themeColor, style: StrokeStyle(lineWidth: 28.0, lineCap: .round, lineJoin: .round))
+                    .rotationEffect(Angle(degrees: 270))
+                    .animation(.easeInOut(duration: 1.0), value: elapsedTime)
             }
-            .onReceive(timer) { _ in
-                let elapsedTime = Date().timeIntervalSinceReferenceDate - startTime.timeIntervalSinceReferenceDate
-                if elapsedTime < endTime {
-                    self.elapsedTime = elapsedTime
-                } else  {
-                    self.elapsedTime = endTime
-                }
+            .padding(circlePadding)
+            
+        }
+        .onReceive(timer) { _ in
+            let elapsedTime = Date().timeIntervalSinceReferenceDate - startTime.timeIntervalSinceReferenceDate
+            if elapsedTime < endTime {
+                self.elapsedTime = elapsedTime
+            } else  {
+                self.elapsedTime = endTime
             }
-            .onDisappear {
-                timer.upstream.connect().cancel()
-            }
+        }
+        .onDisappear {
+            timer.upstream.connect().cancel()
         }
     }
 }
-    
-    #Preview {
-        GoalsView()
-    }
+
+#Preview {
+    GoalsView()
+}
 

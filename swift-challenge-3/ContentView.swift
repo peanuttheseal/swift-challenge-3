@@ -11,33 +11,27 @@ struct ContentView : View {
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
     @State var currentTime: Date?
+    @State var goalTimeLeft: Date?
     
     var body: some View {
         NavigationStack {
             ZStack{
-                Color(red: 255/255, green: 244/255, blue: 209/255)
+                Color(red: 255/255, green: 252/255, blue: 244/255)
                     .ignoresSafeArea()
                 VStack{
-                    
-                    NavigationLink("Goal Time Left"){
+                    NavigationLink("Goal Time Left — \(goalTimeLeft)"){
                         GoalsView()
                     }
-                    
-                    
+                    .foregroundStyle(.orange)
                     
                     HStack {
-                        
-                        
                         Button {
-                            
                             if isAnimationPaused == true {
                                 startDate = .now
                                 isAnimationPaused = false
                             } else {
                                 isAnimationPaused = true
                             }
-                            
-                            
                         } label: {
                             Image(systemName: isAnimationPaused ? "play.fill" : "pause.fill")
                         }
@@ -50,7 +44,6 @@ struct ContentView : View {
                         case false:
                             Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
                         }
-                        
                     }
                 }
             }
