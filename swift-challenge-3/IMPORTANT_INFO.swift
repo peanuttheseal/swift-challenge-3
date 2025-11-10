@@ -11,7 +11,7 @@ import SwiftUI
 struct swift_challenge_3App: App {
     var body: some Scene {
         WindowGroup {
-            TestViewUrgh(gifName: "ChickenRest", replayTrigger: .constant(false))
+            ContentView()
         }
     }
 }
