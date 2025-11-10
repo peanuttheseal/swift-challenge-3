@@ -18,22 +18,22 @@ struct GoalsView: View {
     @State private var isShowingSheet = false
     
     // UI Config
-    private let themeColor: Color = Color(red: 245/255, green: 183/255, blue: 120/255)
-    private let circlePadding: CGFloat = 30
+    private let themeColor2: Color = Color(red: 245/255, green: 183/255, blue: 120/255)
+    private let themeColor1: Color = Color(red: 252/255, green: 227/255, blue: 172/255)
+    private let circlePadding: CGFloat = 50.0
     
     var body: some View {
         ZStack{
-            Color(red: 255/255, green: 252/255, blue: 244/255)
-                .ignoresSafeArea()
-            VStack {
+            Circle()
+                .stroke(themeColor1, style: StrokeStyle(lineWidth: 35.0, lineCap: .round, lineJoin: .round))
+                .rotationEffect(Angle(degrees: 270))
+                .padding(circlePadding)
                 Circle()
                     .trim(from: 0.0, to: elapsedTime/endTime)
-                    .stroke(themeColor, style: StrokeStyle(lineWidth: 28.0, lineCap: .round, lineJoin: .round))
+                    .stroke(themeColor2, style: StrokeStyle(lineWidth: 35.0, lineCap: .round, lineJoin: .round))
                     .rotationEffect(Angle(degrees: 270))
                     .animation(.easeInOut(duration: 1.0), value: elapsedTime)
-            }
-            .padding(circlePadding)
-            
+                    .padding(circlePadding)
         }
         .onReceive(timer) { _ in
             let elapsedTime = Date().timeIntervalSinceReferenceDate - startTime.timeIntervalSinceReferenceDate
@@ -46,29 +46,32 @@ struct GoalsView: View {
         .onDisappear {
             timer.upstream.connect().cancel()
         }
-        
         Button(action: {
             isShowingSheet.toggle()
         }) {
-            Text("Show License Agreement")
+            Text("Change Study Goal")
         }
+        .font(.title)
+        .monospaced()
+        .buttonStyle(.bordered)
         .sheet(isPresented: $isShowingSheet,
                onDismiss: didDismiss) {
             VStack {
-                Text("License Agreement")
+                Text("Time Goal:")
                     .font(.title)
+                    .monospaced()
                     .padding(50)
-                Text("""
-                        Terms and conditions go here.
-                    """)
+                Text("Study Goal:")
+                    .font(.title)
+                    .monospaced()
                     .padding(50)
-                Button("Dismiss",
-                       action: { isShowingSheet.toggle() })
+                //Button("Dismiss",
+                //                action: { isShowingSheet.toggle() })
             }
         }
     }
-
-
+    
+    
     func didDismiss() {
         // Handle the dismissing action.
     }
