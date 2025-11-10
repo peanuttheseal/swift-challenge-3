@@ -1,14 +1,14 @@
 //
-//  TestView.swift
+//  TestViewTwo.swift
 //  swift-challenge-3
 //
-//  Created by Sophie Lian on 7/11/25.
+//  Created by Sophie Lian on 10/11/25.
 //
 
 import SwiftUI
 import WebKit
 
-struct TestView: UIViewRepresentable {
+struct TestViewTwo: UIViewRepresentable {
     let name: String
 
     func makeUIView(context: Context) -> WKWebView {
@@ -25,11 +25,11 @@ struct TestView: UIViewRepresentable {
     }
     
     var body: some View {
-        TestView(name: "ChickenStudy")
-            .frame(width: 200, height: 200) // Set appropriate frame
+        TestViewTwo(name: "ChickenStudy")
+            .frame(width: 200, height: 200)
     }
 }
 
 #Preview {
-    TestView(name: "ChickenStudy")
+    TestViewTwo(name: "ChickenStudy")
 }
