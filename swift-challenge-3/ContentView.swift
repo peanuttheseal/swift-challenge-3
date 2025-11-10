@@ -14,6 +14,9 @@ struct ContentView : View {
     @State var goalTimeLeft: Int = 5
     @State private var changeName = false
     @State private var isSheetPresented = false
+    @State private var isRunning = false
+    @State private var elapsedSeconds = 0
+    @State private var timer: Timer?
     
     var body: some View {
         NavigationStack {
@@ -22,71 +25,80 @@ struct ContentView : View {
                     NavigationLink("Goal Time Left — \(goalTimeLeft)"){
                         GoalsView(goalTimeLeft: $goalTimeLeft)
                     }
+                    .font(.title2)
+                    .bold()
                     .foregroundStyle(.orange)
+                    .monospaced()
+                    .padding()
+                    .background(.black.opacity(0.1))
+                    .cornerRadius(30)
                     
                     HStack {
+                        // Play / Pause button
                         Button {
-                            if isAnimationPaused == true {
-                                startDate = .now
-                                isAnimationPaused = false
+                            if isRunning {
+                                // ⏸ Pause
+                                timer?.invalidate()
+                                timer = nil
+                                isRunning = false
                             } else {
-                                isAnimationPaused = true
+                                // ▶️ Start / Resume
+                                isRunning = true
+                                timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                                    elapsedSeconds += 1
+                                }
                             }
                         } label: {
-                            Image(systemName: isAnimationPaused ? "play.fill" : "pause.fill")
+                            Image(systemName: isRunning ? "pause.fill" : "play.fill")
+                                .font(.title)
                         }
                         .buttonStyle(.bordered)
                         .tint(Color(red: 245/255, green: 182/255, blue: 120/255))
                         
-                        switch isAnimationPaused {
-                        case true:
-                            Text(Date.now, format: .stopwatch(startingAt: startDate ?? .now))
-                        case false:
-                            Text(TimeDataSource<Date>.currentDate, format: .stopwatch(startingAt: startDate ?? .now))
+                        Text(timeString(from: elapsedSeconds))
+                            .font(.system(size: 40, weight: .medium, design: .monospaced))
+                    }
+                    
+                    Button(action: {
+                        changeName.toggle()
+                    }) {
+                        Text("Show License Agreement")
+                    }
+                    .monospaced()
+                    .sheet(isPresented: $changeName,
+                           onDismiss: didDismiss) {
+                        
+                        VStack {
+                            Text("Change Name:")
+                                .font(.title)
+                                .padding(50)
+                            Text("You can click the chicken's name to edit it again")
+                                .padding(50)
                         }
                     }
+                        VStack {
+                        }
+                        .onAppear {
+                            isSheetPresented = true // Sheet will appear when ContentView appears
+                        }
+                        .sheet(isPresented: $isSheetPresented) {
+                            SheetView(isPresented: $isSheetPresented)
+                        }
                 }
             }
         }
-        
-        
-        
-        Button(action: {
-            changeName.toggle()
-        }) {
-            Text("Show License Agreement")
-        }
-        .sheet(isPresented: $changeName,
-               onDismiss: didDismiss) {
-            VStack {
-                Text("Change Name:")
-                    .font(.title)
-                    .padding(50)
-                Text("You can click the chicken's name to edit it again")
-                    .padding(50)
-                Button("Close",
-                       action: { changeName.toggle() })
-            }
-        }
-        
-        
-        
-        VStack {
-        }
-        .onAppear {
-            isSheetPresented = true // Sheet will appear when ContentView appears
-        }
-        .sheet(isPresented: $isSheetPresented) {
-            SheetView(isPresented: $isSheetPresented)
-        }
-        
-        
-        
-    }
-    func didDismiss() {
-        
     }
 }
+func timeString(from seconds: Int) -> String {
+    let hours = seconds / 3600
+    let minutes = seconds / 60
+    let secs = seconds % 60
+    return String(format: "%02d:%02d:%02d", hours, minutes, secs)
+}
+func didDismiss() {
+    
+}
+
 
 #Preview {
     ContentView()
