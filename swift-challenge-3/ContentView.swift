@@ -16,8 +16,7 @@ struct ContentView : View {
     @State private var isSheetPresented = false
     @State private var isRunning = false
     @State private var elapsedSeconds = 0
-    @State private var timer: Timer?
-    @State var name: String = "Chicken"
+    @State private var timer: Timer?;     @State var name: String = "Chicken"
     @State var action: String = "is resting"
     
     var body: some View {
