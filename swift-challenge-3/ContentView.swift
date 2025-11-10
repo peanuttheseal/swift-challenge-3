@@ -24,9 +24,7 @@ struct ContentView : View {
     var body: some View {
         NavigationStack {
             VStack {
-                // -----------------------------
-                // Name Button + Sheet
-                // -----------------------------
+              
                 HStack {
                     Button(action: {
                         changeName.toggle()
@@ -53,9 +51,7 @@ struct ContentView : View {
                     .monospaced()
                     .font(.title2)
 
-                // -----------------------------
-                // ✅ NavigationLink (correct position)
-                // -----------------------------
+            
                 NavigationLink("Goal Time Left — \(goalTimeLeft)") {
                     GoalsView(goalTimeLeft: $goalTimeLeft)
                 }
@@ -66,9 +62,6 @@ struct ContentView : View {
                 .background(.black.opacity(0.1))
                 .cornerRadius(30)
 
-                // -----------------------------
-                // Timer controls
-                // -----------------------------
                 HStack {
                     Button {
                         if isRunning {
