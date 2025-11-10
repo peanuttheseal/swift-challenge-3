@@ -49,6 +49,7 @@ struct TestViewUrgh: UIViewRepresentable {
     
     var body: some View {
         TestViewUrgh(gifName: "ChickenRest", replayTrigger: $replay)
+            .scaledToFit()
             .onTapGesture {
                 replay = true
             }
@@ -56,5 +57,5 @@ struct TestViewUrgh: UIViewRepresentable {
 }
 
 #Preview{
-    TestViewUrgh(gifName: "ChickenRest", replayTrigger: $replayTrigger)
+    TestViewUrgh(gifName: "ChickenRest", replayTrigger: .constant(false))
 }
