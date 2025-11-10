@@ -16,12 +16,36 @@ struct ContentView : View {
     @State private var isSheetPresented = false
     @State private var isRunning = false
     @State private var elapsedSeconds = 0
-    @State private var timer: Timer?
+    @State private var timer: Timer?;     @State var name: String = "Chicken"
+    @State var action: String = "is resting"
     
     var body: some View {
         NavigationStack {
             ZStack{
                 VStack{
+                    HStack {
+                        Button(action: {
+                            changeName.toggle()
+                        }) {
+                            Text(name)
+                        }
+                        .monospaced()
+                        .font(.title2)
+                        .sheet(isPresented: $changeName,
+                               onDismiss: didDismiss) {
+                            
+                            VStack {
+                                Text("Change Name:")
+                                    .font(.title)
+                                    .padding(50)
+                                Text("You can click the chicken's name to edit it again")
+                                    .padding(50)
+                            }
+                        }
+                        Text(action)
+                            .monospaced()
+                            .font(.title2)
+                    }
                     NavigationLink("Goal Time Left — \(goalTimeLeft)"){
                         GoalsView(goalTimeLeft: $goalTimeLeft)
                     }
@@ -59,23 +83,7 @@ struct ContentView : View {
                             .font(.system(size: 40, weight: .medium, design: .monospaced))
                     }
                     
-                    Button(action: {
-                        changeName.toggle()
-                    }) {
-                        Text("Show License Agreement")
-                    }
-                    .monospaced()
-                    .sheet(isPresented: $changeName,
-                           onDismiss: didDismiss) {
-                        
-                        VStack {
-                            Text("Change Name:")
-                                .font(.title)
-                                .padding(50)
-                            Text("You can click the chicken's name to edit it again")
-                                .padding(50)
-                        }
-                    }
+                    
                         VStack {
                         }
                         .onAppear {
