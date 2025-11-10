@@ -12,12 +12,12 @@ struct ContentView : View {
     @State var lastUpdate: Date?
     @State var currentTime: Date?
     @State var goalTimeLeft: Int = 5
+    @State private var changeName = false
+    @State private var isSheetPresented = false
     
     var body: some View {
         NavigationStack {
             ZStack{
-                Color(red: 255/255, green: 252/255, blue: 244/255)
-                    .ignoresSafeArea()
                 VStack{
                     NavigationLink("Goal Time Left — \(goalTimeLeft)"){
                         GoalsView(goalTimeLeft: $goalTimeLeft)
@@ -48,6 +48,43 @@ struct ContentView : View {
                 }
             }
         }
+        
+        
+        
+        Button(action: {
+            changeName.toggle()
+        }) {
+            Text("Show License Agreement")
+        }
+        .sheet(isPresented: $changeName,
+               onDismiss: didDismiss) {
+            VStack {
+                Text("Change Name:")
+                    .font(.title)
+                    .padding(50)
+                Text("You can click the chicken's name to edit it again")
+                    .padding(50)
+                Button("Close",
+                       action: { changeName.toggle() })
+            }
+        }
+        
+        
+        
+        VStack {
+        }
+        .onAppear {
+            isSheetPresented = true // Sheet will appear when ContentView appears
+        }
+        .sheet(isPresented: $isSheetPresented) {
+            SheetView(isPresented: $isSheetPresented)
+        }
+        
+        
+        
+    }
+    func didDismiss() {
+        
     }
 }
 
