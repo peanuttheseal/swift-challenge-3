@@ -10,7 +10,8 @@ import WebKit
 
 struct TestViewTwo: UIViewRepresentable {
     let name: String
-
+    @State private var replayGIF = false
+    
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         if let url = Bundle.main.url(forResource: name, withExtension: "gif"),
@@ -20,13 +21,18 @@ struct TestViewTwo: UIViewRepresentable {
         webView.scrollView.isScrollEnabled = false // Optional: disable scrolling
         return webView
     }
-
+    
     func updateUIView(_ uiView: WKWebView, context: Context) {
     }
     
     var body: some View {
         TestViewTwo(name: "ChickenStudy")
-            .frame(width: 200, height: 200)
+                .frame(width: 200, height: 200)
+                .allowsHitTesting(false)
+                .onTapGesture {
+                    self.replayGIF.toggle()
+               
+        }
     }
 }
 
