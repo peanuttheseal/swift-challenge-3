@@ -15,6 +15,8 @@ struct GoalsView: View {
     
     @State private var elapsedTime: Double = 0.0
     
+    @State private var isShowingSheet = false
+    
     // UI Config
     private let themeColor: Color = Color(red: 245/255, green: 183/255, blue: 120/255)
     private let circlePadding: CGFloat = 30
@@ -44,8 +46,34 @@ struct GoalsView: View {
         .onDisappear {
             timer.upstream.connect().cancel()
         }
+        
+        Button(action: {
+            isShowingSheet.toggle()
+        }) {
+            Text("Show License Agreement")
+        }
+        .sheet(isPresented: $isShowingSheet,
+               onDismiss: didDismiss) {
+            VStack {
+                Text("License Agreement")
+                    .font(.title)
+                    .padding(50)
+                Text("""
+                        Terms and conditions go here.
+                    """)
+                    .padding(50)
+                Button("Dismiss",
+                       action: { isShowingSheet.toggle() })
+            }
+        }
+    }
+
+
+    func didDismiss() {
+        // Handle the dismissing action.
     }
 }
+
 
 #Preview {
     GoalsView()
