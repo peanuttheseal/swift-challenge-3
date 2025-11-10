@@ -17,39 +17,49 @@ struct GoalsView: View {
     
     @State private var isShowingSheet = false
     
+    @Binding var goalTimeLeft: Int
+    
     // UI Config
     private let themeColor2: Color = Color(red: 245/255, green: 183/255, blue: 120/255)
     private let themeColor1: Color = Color(red: 252/255, green: 227/255, blue: 172/255)
     private let circlePadding: CGFloat = 50.0
     
     var body: some View {
-        ZStack{
-            Circle()
-                .stroke(themeColor1, style: StrokeStyle(lineWidth: 35.0, lineCap: .round, lineJoin: .round))
-                .rotationEffect(Angle(degrees: 270))
-                .padding(circlePadding)
+        VStack{
+            Text("Time Goal:")
+                .monospaced()
+                .font(.title)
+            ZStack{
+                Text("Time left: \(goalTimeLeft)")
+                    .monospaced()
+                    .font(.title)
+                Circle()
+                    .stroke(themeColor1, style: StrokeStyle(lineWidth: 35.0, lineCap: .round, lineJoin: .round))
+                    .rotationEffect(Angle(degrees: 270))
+                    .padding(circlePadding)
                 Circle()
                     .trim(from: 0.0, to: elapsedTime/endTime)
                     .stroke(themeColor2, style: StrokeStyle(lineWidth: 35.0, lineCap: .round, lineJoin: .round))
                     .rotationEffect(Angle(degrees: 270))
                     .animation(.easeInOut(duration: 1.0), value: elapsedTime)
                     .padding(circlePadding)
-        }
-        .onReceive(timer) { _ in
-            let elapsedTime = Date().timeIntervalSinceReferenceDate - startTime.timeIntervalSinceReferenceDate
-            if elapsedTime < endTime {
-                self.elapsedTime = elapsedTime
-            } else  {
-                self.elapsedTime = endTime
             }
-        }
-        .onDisappear {
-            timer.upstream.connect().cancel()
+            .onReceive(timer) { _ in
+                let elapsedTime = Date().timeIntervalSinceReferenceDate - startTime.timeIntervalSinceReferenceDate
+                if elapsedTime < endTime {
+                    self.elapsedTime = elapsedTime
+                } else  {
+                    self.elapsedTime = endTime
+                }
+            }
+            .onDisappear {
+                timer.upstream.connect().cancel()
+            }
         }
         Button(action: {
             isShowingSheet.toggle()
         }) {
-            Text("Change Study Goal")
+            Text("Change Time Goal")
         }
         .font(.title)
         .monospaced()
@@ -58,10 +68,6 @@ struct GoalsView: View {
                onDismiss: didDismiss) {
             VStack {
                 Text("Time Goal:")
-                    .font(.title)
-                    .monospaced()
-                    .padding(50)
-                Text("Study Goal:")
                     .font(.title)
                     .monospaced()
                     .padding(50)
@@ -78,7 +84,5 @@ struct GoalsView: View {
 }
 
 
-#Preview {
-    GoalsView()
-}
+
 

@@ -11,7 +11,7 @@ struct ContentView : View {
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
     @State var currentTime: Date?
-    @State var goalTimeLeft: Date?
+    @State var goalTimeLeft: Int = 5
     
     var body: some View {
         NavigationStack {
@@ -20,7 +20,7 @@ struct ContentView : View {
                     .ignoresSafeArea()
                 VStack{
                     NavigationLink("Goal Time Left — \(goalTimeLeft)"){
-                        GoalsView()
+                        GoalsView(goalTimeLeft: $goalTimeLeft)
                     }
                     .foregroundStyle(.orange)
                     
