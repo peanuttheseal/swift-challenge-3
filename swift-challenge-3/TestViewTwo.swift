@@ -26,7 +26,7 @@ struct TestViewTwo: UIViewRepresentable {
     }
     
     var body: some View {
-        TestViewTwo(name: "ChickenStudy")
+        TestViewTwo(name: "ChickenRest")
                 .frame(width: 200, height: 200)
                 .allowsHitTesting(false)
                 .onTapGesture {
@@ -37,5 +37,5 @@ struct TestViewTwo: UIViewRepresentable {
 }
 
 #Preview {
-    TestViewTwo(name: "ChickenStudy")
+    TestViewTwo(name: "ChickenRest")
 }

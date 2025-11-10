@@ -25,11 +25,11 @@ struct TestView: UIViewRepresentable {
     }
     
     var body: some View {
-        TestView(name: "ChickenStudy")
+        TestView(name: "ChickenRest")
             .frame(width: 200, height: 200) // Set appropriate frame
     }
 }
 
 #Preview {
-    TestView(name: "ChickenStudy")
+    TestView(name: "ChickenRest")
 }
