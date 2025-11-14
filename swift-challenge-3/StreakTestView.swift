@@ -39,7 +39,7 @@ extension Date {
 
 struct StreakApp: View {
     
-    @AppStorage("counter") var counter = 0
+    @State @AppStorage("counter") var counter = 0
     @AppStorage("tapDate") var TapDate: String?
     @AppStorage("Tappable") var ButtonTapped = false
     var body: some View {

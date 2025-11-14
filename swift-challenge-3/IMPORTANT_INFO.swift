@@ -11,7 +11,7 @@ import SwiftUI
 struct swift_challenge_3App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(goalTimeLeft: 5, streak: .constant(0))
         }
     }
 }
