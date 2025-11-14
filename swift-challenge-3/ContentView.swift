@@ -11,7 +11,7 @@ struct ContentView : View {
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
     @State var currentTime: Date?
-    @State var goalTimeLeft: Int = 5
+    @State var goalTimeLeft: Int
     @State private var changeName = false
     @State private var isSheetPresented = false
     @State private var isRunning = false
@@ -19,10 +19,14 @@ struct ContentView : View {
     @State private var timer: Timer?
     @State var action: String = "is resting"
     @State var name = "Chicken"
+    @State var streak: Int = 0
+    @State var isFirstTime = true
 
     var body: some View {
         NavigationStack {
             VStack {
+                
+                Text("\(streak) days")
               
                 RestView(name: "ChickenRest")
                     .frame(width: 300, height: 300)
@@ -73,11 +77,17 @@ struct ContentView : View {
                             timer?.invalidate()
                             timer = nil
                             isRunning = false
+                            
                         } else {
                             isRunning = true
                             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                                 elapsedSeconds += 1
                             }
+                        }
+                        
+                        if isFirstTime == true {
+                            streak += 1
+                            isFirstTime = false
                         }
                     } label: {
                         Image(systemName: isRunning ? "pause.fill" : "play.fill")
@@ -111,5 +121,5 @@ struct ContentView : View {
 
 
 #Preview {
-    ContentView()
+    ContentView(goalTimeLeft: 5)
 }

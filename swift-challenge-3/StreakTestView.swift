@@ -9,12 +9,10 @@ import SwiftUI
 
 extension Date {
     
-    // for tomorow's Date
     static var tomorrow:  Date { return Date().dayAfter }
     static var today: Date {return Date()}
     var dayAfter: Date {
        return Calendar.current.date(byAdding: .day, value: 1, to: Date())!
-        // just add .minute after byAdding: , to create a streak minute counter and check the logic.
     }
 
     static func getTodayDate() -> String {
@@ -22,7 +20,6 @@ extension Date {
            let dateFormatter = DateFormatter()
 
            dateFormatter.dateFormat = "E d MMM yyyy"
-        //to continue with the minute streak builder just add "E d MMM yyyy h:mm a" above, it will allow date formatting with minutes and follow the changes in dayAfter
 
         return dateFormatter.string(from: Date.today)
 
@@ -39,14 +36,14 @@ extension Date {
 
 struct StreakApp: View {
     
-    @AppStorage("counter") var counter = 0
+    @State private var streak = 0
     @AppStorage("tapDate") var TapDate: String?
     @AppStorage("Tappable") var ButtonTapped = false
     var body: some View {
         NavigationView {
             VStack{
                 VStack {
-                    Text("\(counter)").foregroundColor(.gray)
+                    Text("\(streak)").foregroundColor(.gray)
                     Text("Restore your streak tomorrow on ")
                     Text(TapDate ?? "No Date")
                     Image(systemName: "flame")
@@ -62,14 +59,14 @@ struct StreakApp: View {
                     if  TapDate == nil {
                         //Check if user has already tapped
                         self.ButtonTapped = true
-                        counter += 1
+                        streak += 1
                         self.TapDate = ("\(Date.getTomDate())")
                     }
                     else if ("\(Date.getTodayDate())") == TapDate {
                         //Check for the consecutive Day of Streak
                        
                         self.TapDate = ("\(Date.getTomDate())")
-                        counter += 1
+                        streak += 1
                         //Let's light the flame back again.
                         self.ButtonTapped = true
                     }
@@ -88,7 +85,7 @@ struct StreakApp: View {
                 Button {
                     self.TapDate = nil
                     self.ButtonTapped = false
-                    self.counter = 0
+                    self.streak = 0
                 } label: {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .foregroundColor(.black)
@@ -110,7 +107,7 @@ struct StreakApp: View {
                 else {
                     self.TapDate = nil
                     self.ButtonTapped = false
-                    self.counter = 0
+                    self.streak = 0
                 }
           
             }
