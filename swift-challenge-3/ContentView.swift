@@ -25,6 +25,10 @@ struct ContentView : View {
         NavigationStack {
             VStack {
               
+                RestView(name: "ChickenRest")
+                    .frame(width: 300, height: 300)
+                    .padding()
+                
                 HStack {
                     Button(action: {
                         changeName.toggle()
@@ -50,7 +54,6 @@ struct ContentView : View {
                 Text(action)
                     .monospaced()
                     .font(.title2)
-
             
                 NavigationLink("Goal Time Left — \(goalTimeLeft)") {
                     GoalsView(goalTimeLeft: $goalTimeLeft)

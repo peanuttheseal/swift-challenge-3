@@ -8,7 +8,7 @@
 import SwiftUI
 import WebKit
 
-struct TestView: UIViewRepresentable {
+struct RestView: UIViewRepresentable {
     let name: String
 
     func makeUIView(context: Context) -> WKWebView {
@@ -25,11 +25,11 @@ struct TestView: UIViewRepresentable {
     }
     
     var body: some View {
-        TestView(name: "ChickenRest")
+        RestView(name: "ChickenRest")
             .frame(width: 200, height: 200)// Set appropriate frame
     }
 }
 
 #Preview {
-    TestView(name: "ChickenRest")
+    RestView(name: "ChickenRest")
 }
