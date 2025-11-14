@@ -47,7 +47,7 @@ struct StreakApp: View {
             VStack{
                 VStack {
                     Text("\(counter)").foregroundColor(.gray)
-                    Text("Restore your streak on ")
+                    Text("Restore your streak tomorrow on ")
                     Text(TapDate ?? "No Date")
                     Image(systemName: "flame")
                         .resizable()
