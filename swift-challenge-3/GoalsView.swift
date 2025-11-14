@@ -82,7 +82,3 @@ struct GoalsView: View {
         // Handle the dismissing action.
     }
 }
-
-
-
-

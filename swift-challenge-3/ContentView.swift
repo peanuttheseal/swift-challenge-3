@@ -92,7 +92,7 @@ struct ContentView : View {
             }
         }
         .sheet(isPresented: $isSheetPresented) {
-            SheetView(isPresented: $isSheetPresented)
+            GoalTimeView(isPresented: $isSheetPresented, goalTimeLeft: $goalTimeLeft)
         }
         .onAppear {
             isSheetPresented = true
