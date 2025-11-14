@@ -15,7 +15,7 @@ struct ContentView : View {
     @State private var changeName = false
     @State private var isSheetPresented = false
     @State private var isRunning = false
-    @State private var elapsedSeconds = 0
+    @State private var elapsedSeconds:Int = 0
     @State private var timer: Timer?
     @State var action: String = "is resting"
     @State var name = "Chicken"
@@ -58,7 +58,7 @@ struct ContentView : View {
                     .font(.title2)
             
                 NavigationLink("Goal Time Left — \(goalTimeLeft)") {
-                    GoalsView(goalTimeLeft: $goalTimeLeft)
+                    GoalsView(elapsedSeconds: $elapsedSeconds, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)
                 .bold()
