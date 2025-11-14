@@ -17,9 +17,8 @@ struct ContentView : View {
     @State private var isRunning = false
     @State private var elapsedSeconds = 0
     @State private var timer: Timer?
-    @State var name: String = "Chicken"
     @State var action: String = "is resting"
-    @State var text = ""
+    @State var name = "Chicken"
 
     var body: some View {
         NavigationStack {
@@ -44,8 +43,11 @@ struct ContentView : View {
 
                             Text("You can click the chicken's name to edit it again")
 
-                            TextField("New Name", text: $text)
+                            TextField("New Name", text: $name)
                                 .textFieldStyle(.roundedBorder)
+                            
+                            Button("Done",
+                                            action: { changeName.toggle() })
                         }
                         .padding()
                     }
