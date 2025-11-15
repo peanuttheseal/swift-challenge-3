@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GoalsView: View {
     @State private var isShowingSheet = false
-    @Binding var elapsedSeconds: Int
+    @Binding var elapsedSeconds2: Int
     @Binding var goalTimeLeft: Int
     
     // UI Config
@@ -23,7 +23,7 @@ struct GoalsView: View {
                 .monospaced()
                 .font(.title)
             ZStack{
-                Text("Time left: \(goalTimeLeft - elapsedSeconds)")
+                Text("Time left: \(goalTimeLeft - elapsedSeconds2)")
                     .monospaced()
                     .font(.title)
                 Circle()
@@ -31,13 +31,12 @@ struct GoalsView: View {
                     .rotationEffect(Angle(degrees: 270))
                     .padding(circlePadding)
                 Circle()
-                    .trim(from: 0, to: Double(elapsedSeconds)/Double(goalTimeLeft))
+                    .trim(from: 0, to: Double(elapsedSeconds2)/Double(goalTimeLeft))
                     .stroke(themeColor2, style: StrokeStyle(lineWidth: 35.0, lineCap: .round, lineJoin: .round))
                     .rotationEffect(Angle(degrees: 270))
-                    .animation(.easeOut, value: goalTimeLeft < 0 ? 1: elapsedSeconds)
+                    .animation(.easeOut, value: goalTimeLeft < 0 ? 1: elapsedSeconds2)
                     .padding(circlePadding)
             }
         }
     }
 }
-

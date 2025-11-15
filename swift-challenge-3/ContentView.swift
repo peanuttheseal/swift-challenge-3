@@ -10,10 +10,11 @@ struct ContentView : View {
     
     @Environment(\.scenePhase) var scenePhase
     @State private var isRunning = false
-    @State private var elapsedSeconds:Int = 0
+    @State private var elapsedSeconds: Int = 0
     @State private var timer: Timer?
     @State private var wasPausedBeforeBackground = false
     @State private var showResumeAlert = false
+    @State private var elapsedSeconds2: Int = 0
     
     @State var startDate: Date?
     @State var isAnimationPaused = true
@@ -75,7 +76,7 @@ struct ContentView : View {
                 
                 // button to go to study goal time
                 NavigationLink("Goal Time Left: \(goalTimeLeft)") {
-                    GoalsView(elapsedSeconds: $elapsedSeconds, goalTimeLeft: $goalTimeLeft)
+                    GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)
                 .monospaced()
@@ -97,6 +98,7 @@ struct ContentView : View {
                             isRunning = true
                             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                                 elapsedSeconds += 1
+                                elapsedSeconds2 += 1
                             }
                         }
                         
