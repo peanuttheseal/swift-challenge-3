@@ -41,6 +41,12 @@ struct ContentView : View {
                 Text("\(streak) days")
                     .monospaced()
                 
+                var quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!"]
+                if let randomQuote = quotes.randomElement() {
+                    Text("\(randomQuote)")
+                    
+                }
+                
                 // chicken animation
                 RestView(name: "ChickenRest")
                     .frame(width: 300, height: 300)
