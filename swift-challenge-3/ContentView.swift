@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import WidgetKit
 struct ContentView : View {
     
     @Environment(\.scenePhase) var scenePhase
+    
+    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentStreak: Int = 0
+    
     @State private var isRunning = false
     @State private var elapsedSeconds: Int = 0
     @State private var timer: Timer?
@@ -28,6 +32,7 @@ struct ContentView : View {
     @State var streak: Int = 0
     @State var isFirstTime = true
     
+    let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
     
     var body: some View {
         NavigationStack {
@@ -116,6 +121,8 @@ struct ContentView : View {
                         
                         if isFirstTime == true {
                             streak += 1
+                            userDefaults.set(currentStreak, forKey: "streakCount")
+                                            WidgetCenter.shared.reloadAllTimelines()
                             isFirstTime = false
                         }
                     } label: {
@@ -141,6 +148,9 @@ struct ContentView : View {
                         }
                     }
                 }
+                .onAppear {
+                            currentStreak = userDefaults.integer(forKey: "streakCount")
+                        }
                 .alert("Continue study session?", isPresented: $showResumeAlert) {
                     Button("Continue") {
                         startTimer()
