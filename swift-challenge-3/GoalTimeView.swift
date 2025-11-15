@@ -39,6 +39,7 @@ struct GoalTimeView: View {
                     Text("Hours")
                         .font(.system(size:25))
                         .bold()
+                        .monospaced()
                     
                     Picker("Hours", selection: $selectedHour)
                     {
@@ -53,6 +54,7 @@ struct GoalTimeView: View {
                     Text("Minutes")
                         .font(.system(size:25))
                         .bold()
+                        .monospaced()
                     
                     Picker("Mintues", selection: $selectedMinute){
                         ForEach(minutes, id: \.self){
@@ -73,6 +75,7 @@ struct GoalTimeView: View {
                     .font(.title)
                 Text("Done")
                     .font(.title)
+                    .monospaced()
             }
         }
         .buttonStyle(.borderedProminent)

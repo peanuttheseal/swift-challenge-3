@@ -21,13 +21,14 @@ struct ContentView : View {
     @State var name = "Chicken"
     @State var streak: Int = 0
     @State var isFirstTime = true
-
+    
     var body: some View {
         NavigationStack {
             VStack {
                 
                 Text("\(streak) days")
-              
+                    .monospaced()
+                
                 RestView(name: "ChickenRest")
                     .frame(width: 300, height: 300)
                     .padding()
@@ -44,33 +45,37 @@ struct ContentView : View {
                         VStack {
                             Text("Change Name:")
                                 .font(.title)
-
+                                .monospaced()
+                            
                             Text("You can click the chicken's name to edit it again")
-
+                                .monospaced()
+                            
                             TextField("New Name", text: $name)
                                 .textFieldStyle(.roundedBorder)
+                                .monospaced()
                             
                             Button("Done",
-                                            action: { changeName.toggle() })
+                                   action: { changeName.toggle() })
                         }
                         .padding()
                     }
                 }
-
+                
                 Text(action)
                     .monospaced()
                     .font(.title2)
-            
+                
                 NavigationLink("Goal Time Left — \(goalTimeLeft)") {
                     GoalsView(elapsedSeconds: $elapsedSeconds, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)
+                .monospaced()
                 .bold()
                 .foregroundStyle(.orange)
                 .padding()
                 .background(.black.opacity(0.1))
                 .cornerRadius(30)
-
+                
                 HStack {
                     Button {
                         if isRunning {
@@ -95,7 +100,7 @@ struct ContentView : View {
                     }
                     .buttonStyle(.bordered)
                     .tint(Color(red: 245/255, green: 182/255, blue: 120/255))
-
+                    
                     Text(timeString(from: elapsedSeconds))
                         .font(.system(size: 40, weight: .medium, design: .monospaced))
                 }
@@ -108,14 +113,14 @@ struct ContentView : View {
             isSheetPresented = true
         }
     }
-
+    
     func timeString(from seconds: Int) -> String {
         let hours = seconds / 3600
         let minutes = seconds / 60
         let secs = seconds % 60
         return String(format: "%02d:%02d:%02d", hours, minutes, secs)
     }
-
+    
     func didDismiss() {}
 }
 
