@@ -28,8 +28,13 @@ struct ContentView : View {
     @State var streak: Int = 0
     @State var isFirstTime = true
     
+    
     var body: some View {
         NavigationStack {
+            let hours = (goalTimeLeft - elapsedSeconds2) / 3600
+                   let remainingSeconds = (goalTimeLeft - elapsedSeconds2) % 3600
+                   let minutes = remainingSeconds / 60
+                   let seconds = remainingSeconds % 60
             VStack {
                 
                 // streak
@@ -47,6 +52,7 @@ struct ContentView : View {
                         changeName.toggle()
                     }) {
                         Text(name)
+                            .foregroundStyle(.black)
                     }
                     .monospaced()
                     .font(.title2)
@@ -75,7 +81,7 @@ struct ContentView : View {
                     .font(.title2)
                 
                 // button to go to study goal time
-                NavigationLink("Goal Time Left: \(goalTimeLeft)") {
+                NavigationLink("Goal Time Left: \n  \(hours)h \(minutes)m \(seconds)s") {
                     GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)

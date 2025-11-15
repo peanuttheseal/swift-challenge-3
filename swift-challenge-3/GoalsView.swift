@@ -18,14 +18,25 @@ struct GoalsView: View {
     private let circlePadding: CGFloat = 50.0
     
     var body: some View {
+        let hours = (goalTimeLeft - elapsedSeconds2) / 3600
+        let remainingSeconds = (goalTimeLeft - elapsedSeconds2) % 3600
+        let minutes = remainingSeconds / 60
+        let seconds = remainingSeconds % 60
+        
         VStack{
             Text("Time Goal:")
                 .monospaced()
                 .font(.title)
             ZStack{
-                Text("Time left: \(goalTimeLeft - elapsedSeconds2)")
-                    .monospaced()
-                    .font(.title)
+                VStack{
+                    Text("Time left:")
+                        .monospaced()
+                        .font(.title)
+
+                    Text("\(hours)h \(minutes)m \(seconds)s")
+                        .monospaced()
+                        .font(.title)
+                }
                 Circle()
                     .stroke(themeColor1, style: StrokeStyle(lineWidth: 35.0, lineCap: .round, lineJoin: .round))
                     .rotationEffect(Angle(degrees: 270))
