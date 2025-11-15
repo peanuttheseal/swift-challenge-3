@@ -7,6 +7,14 @@
 
 import SwiftUI
 struct ContentView : View {
+    
+    @Environment(\.scenePhase) var scenePhase
+    @State private var isRunning = false
+    @State private var elapsedSeconds:Int = 0
+    @State private var timer: Timer?
+    @State private var wasPausedBeforeBackground = false
+    @State private var showResumeAlert = false
+    
     @State var startDate: Date?
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
@@ -14,9 +22,6 @@ struct ContentView : View {
     @State var goalTimeLeft: Int
     @State private var changeName = false
     @State private var isSheetPresented = false
-    @State private var isRunning = false
-    @State private var elapsedSeconds:Int = 0
-    @State private var timer: Timer?
     @State var action: String = "is resting"
     @State var name = "Chicken"
     @State var streak: Int = 0
@@ -26,13 +31,16 @@ struct ContentView : View {
         NavigationStack {
             VStack {
                 
+                // streak
                 Text("\(streak) days")
                     .monospaced()
                 
+                // chicken animation
                 RestView(name: "ChickenRest")
                     .frame(width: 300, height: 300)
                     .padding()
                 
+                // change chicken name
                 HStack {
                     Button(action: {
                         changeName.toggle()
@@ -65,7 +73,8 @@ struct ContentView : View {
                     .monospaced()
                     .font(.title2)
                 
-                NavigationLink("Goal Time Left — \(goalTimeLeft)") {
+                // button to go to study goal time
+                NavigationLink("Goal Time Left: \(goalTimeLeft)") {
                     GoalsView(elapsedSeconds: $elapsedSeconds, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)
@@ -76,6 +85,7 @@ struct ContentView : View {
                 .background(.black.opacity(0.1))
                 .cornerRadius(30)
                 
+                // timer
                 HStack {
                     Button {
                         if isRunning {
@@ -104,6 +114,28 @@ struct ContentView : View {
                     Text(timeString(from: elapsedSeconds))
                         .font(.system(size: 40, weight: .medium, design: .monospaced))
                 }
+                .onChange(of: scenePhase) {
+                    if scenePhase == .background {
+                        if !isRunning && elapsedSeconds > 0 {
+                            wasPausedBeforeBackground = true
+                        }
+                    }
+                    if scenePhase == .active {
+                        if wasPausedBeforeBackground {
+                            showResumeAlert = true
+                            wasPausedBeforeBackground = false
+                        }
+                    }
+                }
+                .alert("Continue study session?", isPresented: $showResumeAlert) {
+                    Button("Continue") {
+                        startTimer()
+                    }
+                    Button("End Session", role: .destructive) {
+                        elapsedSeconds = 0
+                        isRunning = false
+                    }
+                }
             }
         }
         .sheet(isPresented: $isSheetPresented) {
@@ -112,6 +144,18 @@ struct ContentView : View {
         .onAppear {
             isSheetPresented = true
         }
+    }
+    
+    func startTimer() {
+        isRunning = true
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in elapsedSeconds += 1
+        }
+    }
+    
+    func pauseTimer() {
+        isRunning = false
+        timer?.invalidate()
+        timer = nil
     }
     
     func timeString(from seconds: Int) -> String {
