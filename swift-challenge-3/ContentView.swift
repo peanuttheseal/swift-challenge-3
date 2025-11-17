@@ -11,7 +11,7 @@ struct ContentView : View {
     
     @Environment(\.scenePhase) var scenePhase
     
-    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentStreak: Int = 0
+    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
     
     @State private var isRunning = false
     @State private var elapsedSeconds: Int = 0
@@ -19,17 +19,18 @@ struct ContentView : View {
     @State private var wasPausedBeforeBackground = false
     @State private var showResumeAlert = false
     @State private var elapsedSeconds2: Int = 0
+    @State private var changeName = false
+    @State private var isSheetPresented = false
+    @State private var currentStreak: Int = 0
+    @State private var showingAlert = false
     
     @State var startDate: Date?
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
     @State var currentTime: Date?
     @State var goalTimeLeft: Int
-    @State private var changeName = false
-    @State private var isSheetPresented = false
     @State var action: String = "is resting"
     @State var name = "Chicken"
-    @State var streak: Int = 0
     @State var isFirstTime = true
     
     @State private var showingAlert = false
@@ -139,12 +140,15 @@ struct ContentView : View {
                             timer?.invalidate()
                             timer = nil
                             isRunning = false
+                            action = "is resting"
                             
                         } else {
                             isRunning = true
                             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                                elapsedSeconds += 1
-                                elapsedSeconds2 += 1
+                            elapsedSeconds += 1
+                            elapsedSeconds2 += 1
+                            action = "is studying"
+                            
                             }
                         }
                         

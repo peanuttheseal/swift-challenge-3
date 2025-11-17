@@ -32,46 +32,20 @@ struct Provider: TimelineProvider {
     }
 }
 
-
-//    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-//        let entry = SimpleEntry(date: Date(), streakCount: Int())
-//        completion(entry)
-//    }
-//
-//    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-//        var entries: [SimpleEntry] = []
-//
-//        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-//        let currentDate = Date()
-//        for hourOffset in 0 ..< 5 {
-//            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-//            let entry = SimpleEntry(date: entryDate, streakCount: )
-//            entries.append(entry)
-//        }
-//
-//        let timeline = Timeline(entries: entries, policy: .atEnd)
-//        completion(timeline)
-//    }
-
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
-
-
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let streakCount: Int
 }
 
 struct StreakWidgetEntryView : View {
-    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentStreak: Int = 0
+    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
     var entry: Provider.Entry
 
     var body: some View {
         VStack {
             Text("🔥🐓   S T R E A K   🐓🔥")
                 .font(.headline)
-            Text("\(currentStreak) days!")
+            Text("\(streak) days!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
         }
