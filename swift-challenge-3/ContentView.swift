@@ -42,7 +42,7 @@ struct ContentView : View {
     //@State var randomQuote = quotes.randomElement()
 
   
-    let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
+    let userDefaults = UserDefaults(suiteName: "group.sg.tk.2025.4pm")!
     
     // computed property — not a stored variable — detects broken streak
     private var isStreakBroken: Bool {
@@ -158,30 +158,56 @@ struct ContentView : View {
                 
                 // timer
                 HStack {
+                    
                     Button {
                         if isRunning {
                             timer?.invalidate()
                             timer = nil
                             isRunning = false
                             action = "is resting"
-                            
                         } else {
                             isRunning = true
                             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                            elapsedSeconds += 1
-                            elapsedSeconds2 += 1
-                            action = "is studying"
+                                elapsedSeconds += 1
+                                elapsedSeconds2 += 1
+                                action = "is studying"
+                            }
                             
+                            // Daily streak logic with date tracking
+                            let calendar = Calendar.current
+                            let today = calendar.startOfDay(for: Date())
+                            
+                            if let lastCompletionDate = userDefaults.object(forKey: "lastCompletionDate") as? Date {
+                                let lastDay = calendar.startOfDay(for: lastCompletionDate)
+                                
+                                // Check if it's a new day
+                                if !calendar.isDate(lastDay, inSameDayAs: today) {
+                                    // Check if streak should continue or reset
+                                    if let daysDifference = calendar.dateComponents([.day], from: lastDay, to: today).day {
+                                        if daysDifference == 1 {
+                                            // Consecutive day - increment streak
+                                            streak += 1
+                                        } else {
+                                            // Missed a day - reset streak
+                                            streak = 1
+                                        }
+                                    }
+                                    
+                                    // Update stored values
+                                    userDefaults.set(streak, forKey: "streakCount")
+                                    userDefaults.set(today, forKey: "lastCompletionDate")
+                                    WidgetCenter.shared.reloadAllTimelines()
+                                }
+                            } else {
+                                // First time ever - start streak
+                                streak = 1
+                                userDefaults.set(streak, forKey: "streakCount")
+                                userDefaults.set(today, forKey: "lastCompletionDate")
+                                WidgetCenter.shared.reloadAllTimelines()
                             }
                         }
-                        
-                        if isFirstTime == true {
-                            streak += 1
-                            userDefaults.set(streak, forKey: "streakCount")
-                            WidgetCenter.shared.reloadAllTimelines()
-                            isFirstTime = false
-                        }
-                    } label: {
+                    }
+                    label: {
                         Image(systemName: isRunning ? "pause.fill" : "play.fill")
                             .font(.title)
                     }
@@ -191,6 +217,7 @@ struct ContentView : View {
                     Text(timeString(from: elapsedSeconds))
                         .font(.system(size: 40, weight: .medium))
                 }
+                
                 .onChange(of: scenePhase) {
                     if scenePhase == .background {
                         if !isRunning && elapsedSeconds > 0 {
