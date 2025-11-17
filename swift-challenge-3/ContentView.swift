@@ -32,6 +32,8 @@ struct ContentView : View {
     @State var streak: Int = 0
     @State var isFirstTime = true
     
+    @State private var showingAlert = false
+    
     let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
     
     var body: some View {
@@ -61,11 +63,11 @@ struct ContentView : View {
                 HStack {
                     Button(action: {
                         changeName.toggle()
+                        showingAlert = true
                     }) {
                         Text(name)
                             .foregroundStyle(.orange)
                     }
-                    .monospaced()
                     .font(.title2)
                     .sheet(isPresented: $changeName, onDismiss: didDismiss) {
                         VStack {
@@ -84,6 +86,14 @@ struct ContentView : View {
                                    action: { changeName.toggle() })
                         }
                         .padding()
+                    }
+                    .alert(isPresented: $showingAlert) {
+                        if name.isEmpty {
+                            Alert(title: Text("Important message"), message: Text("This cannot be left blank"), dismissButton: .default(Text("Got it!")))
+                        }
+                        else {
+                            Alert(title: Text("Nil"), message: Text("Nil"), dismissButton: .default(Text("Nil")))
+                        }
                     }
                 }
                 
@@ -191,6 +201,7 @@ struct ContentView : View {
     
     func didDismiss() {}
 }
+    
 
 
 #Preview {
