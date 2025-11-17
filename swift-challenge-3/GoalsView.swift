@@ -108,6 +108,7 @@ struct GoalsView: View {
                     Button {
                         selectedTime()
                         isPresented2 = false
+                        changeGoalTime = false
                     } label: {
                         HStack{
                             Image(systemName: "checkmark.circle")

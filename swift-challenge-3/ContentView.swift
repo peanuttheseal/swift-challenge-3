@@ -11,24 +11,24 @@ struct ContentView : View {
     
     @Environment(\.scenePhase) var scenePhase
     
-    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
+    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
     
     @State private var isRunning = false
-    @State private var elapsedSeconds: Int = 0
+    @AppStorage("elapsedSeconds", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var elapsedSeconds: Int = 0
     @State private var timer: Timer?
     @State private var wasPausedBeforeBackground = false
     @State private var showResumeAlert = false
     @State private var elapsedSeconds2: Int = 0
     @State private var changeName = false
     @State private var isSheetPresented = false
-    @State private var currentStreak: Int = 0
+    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentstreak: Int = 0
     @State private var showingAlert = false
     
     @State var startDate: Date?
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
     @State var currentTime: Date?
-    @State var goalTimeLeft: Int
+    @AppStorage("goalTimeLeft", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var goalTimeLeft: Int = 0
     @State var action: String = "is resting"
     @State var name = "Chicken"
     @State var isFirstTime = true
@@ -161,7 +161,7 @@ struct ContentView : View {
                         
                         if isFirstTime == true {
                             streak += 1
-                            userDefaults.set(currentStreak, forKey: "streakCount")
+                            userDefaults.set(streak, forKey: "streakCount")
                             WidgetCenter.shared.reloadAllTimelines()
                             isFirstTime = false
                         }
@@ -189,7 +189,7 @@ struct ContentView : View {
                     }
                 }
                 .onAppear {
-                    currentStreak = userDefaults.integer(forKey: "streakCount")
+                    streak = userDefaults.integer(forKey: "streakCount")
                 }
                 .alert("Continue study session?", isPresented: $showResumeAlert) {
                     Button("Continue") {
@@ -233,7 +233,3 @@ struct ContentView : View {
 }
     
 
-
-#Preview {
-    ContentView(goalTimeLeft: 5)
-}
