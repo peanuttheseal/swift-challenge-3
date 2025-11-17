@@ -18,7 +18,7 @@ struct ContentView : View {
     @State private var timer: Timer?
     @State private var wasPausedBeforeBackground = false
     @State private var showResumeAlert = false
-    @State private var elapsedSeconds2: Int = 0
+    @AppStorage("elapsedSeconds2", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var elapsedSeconds2: Int = 0
     @State private var changeName = false
     @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentstreak: Int = 0
     @State private var showingAlert = false
@@ -31,7 +31,8 @@ struct ContentView : View {
     @State var currentTime: Date?
     @AppStorage("goalTimeLeft", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var goalTimeLeft: Int = 0
     @State var action: String = "is resting"
-    @State var name = "Chicken"
+    @AppStorage("name", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var name = "Chicken"
+   
     @State var isFirstTime = true
     @State private var showContent = false
     @State var isPresented: Bool = false
