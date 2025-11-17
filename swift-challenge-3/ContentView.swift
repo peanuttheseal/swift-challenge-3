@@ -30,7 +30,8 @@ struct ContentView : View {
     @State var currentTime: Date?
     @AppStorage("goalTimeLeft", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var goalTimeLeft: Int = 0
     @State var action: String = "is resting"
-    @State var name = "Chicken"
+    @AppStorage("name", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var name = "Chicken"
+   
     @State var isFirstTime = true
     @State private var showContent = false
     @State var isPresented: Bool = false
