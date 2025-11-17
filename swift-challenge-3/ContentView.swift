@@ -126,12 +126,15 @@ struct ContentView : View {
                             timer?.invalidate()
                             timer = nil
                             isRunning = false
+                            action = "is resting"
                             
                         } else {
                             isRunning = true
                             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                                elapsedSeconds += 1
-                                elapsedSeconds2 += 1
+                            elapsedSeconds += 1
+                            elapsedSeconds2 += 1
+                            action = "is studying"
+                            
                             }
                         }
                         
