@@ -22,6 +22,7 @@ struct ContentView : View {
     @State private var changeName = false
     @State private var isSheetPresented = false
     @State private var currentStreak: Int = 0
+    @State private var showingAlert = false
     
     @State var startDate: Date?
     @State var isAnimationPaused = true
@@ -31,8 +32,6 @@ struct ContentView : View {
     @State var action: String = "is resting"
     @State var name = "Chicken"
     @State var isFirstTime = true
-    
-    @State private var showingAlert = false
     
     let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
     
