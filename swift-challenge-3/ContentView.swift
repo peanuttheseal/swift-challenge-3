@@ -20,9 +20,10 @@ struct ContentView : View {
     @State private var showResumeAlert = false
     @AppStorage("elapsedSeconds2", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var elapsedSeconds2: Int = 0
     @State private var changeName = false
-    @State private var isSheetPresented = false
     @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentstreak: Int = 0
     @State private var showingAlert = false
+    @AppStorage("lastSheetDate") private var lastSheetDate: String = ""
+    @State private var isSheetPresented = false
     
     @State var startDate: Date?
     @State var isAnimationPaused = true
@@ -99,21 +100,17 @@ struct ContentView : View {
                     }) {
                         Text(name)
                             .foregroundStyle(.orange)
-                            .monospaced()
                     }
                     .font(.title2)
                     .sheet(isPresented: $changeName, onDismiss: didDismiss) {
                         VStack {
                             Text("Change Name:")
                                 .font(.title)
-                                .monospaced()
                             
                             Text("You can click the chicken's name to edit it again")
-                                .monospaced()
                             
                             TextField("New Name", text: $name)
                                 .textFieldStyle(.roundedBorder)
-                                .monospaced()
                             
                             Button("Done",action: {
                                 isPresented = false
@@ -142,7 +139,6 @@ struct ContentView : View {
                 }
                 
                 Text(action)
-                    .monospaced()
                     .font(.title2)
                 
                 // button to go to study goal time
@@ -150,7 +146,6 @@ struct ContentView : View {
                     GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)
-                .monospaced()
                 .bold()
                 .foregroundStyle(.orange)
                 .padding()
@@ -190,7 +185,7 @@ struct ContentView : View {
                     .tint(Color(red: 245/255, green: 182/255, blue: 120/255))
                     
                     Text(timeString(from: elapsedSeconds))
-                        .font(.system(size: 40, weight: .medium, design: .monospaced))
+                        .font(.system(size: 40, weight: .medium))
                 }
                 .onChange(of: scenePhase) {
                     if scenePhase == .background {
@@ -223,7 +218,16 @@ struct ContentView : View {
             GoalTimeView(isPresented: $isSheetPresented, goalTimeLeft: $goalTimeLeft)
         }
         .onAppear {
-            isSheetPresented = true
+            let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd"   // only the date, no time
+                
+                let today = formatter.string(from: Date())
+                
+                if lastSheetDate != today {
+                    // first time opening app today
+                    isSheetPresented = true
+                    lastSheetDate = today
+                }
         }
     }
     
