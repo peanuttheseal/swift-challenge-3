@@ -38,6 +38,13 @@ struct ContentView : View {
     
     let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
     
+    // computed property — not a stored variable — detects broken streak
+    private var isStreakBroken: Bool {
+        // simple rule: streak == 0 means it's broken.
+        // If you prefer day-based detection, compare a saved lastStudyDay timestamp instead.
+        return streak == 0
+    }
+    
     var body: some View {
         NavigationStack {
             let hours = (goalTimeLeft - elapsedSeconds2) / 3600
@@ -63,15 +70,23 @@ struct ContentView : View {
                 
                 
                 // chicken animation
-                
-                if isRunning {
-                    StudyView(name: "ChickenStudy")
+                // <- MODIFIED: when isStreakBroken is true, show ChickenCookedView
+                if isStreakBroken {
+                    // show the cooked chicken when the streak is broken
+                    StudyCookedView(name: "ChickenCooked")
                         .frame(width: 300, height: 300)
                         .padding()
                 } else {
-                    RestView(name: "ChickenRest")
-                        .frame(width: 300, height: 300)
-                        .padding()
+                    // original behavior when streak is not broken
+                    if isRunning {
+                        StudyView(name: "ChickenStudy")
+                            .frame(width: 300, height: 300)
+                            .padding()
+                    } else {
+                        RestView(name: "ChickenRest")
+                            .frame(width: 300, height: 300)
+                            .padding()
+                    }
                 }
                 
                 // change chicken name
