@@ -79,7 +79,7 @@ struct ContentView : View {
                 if isStreakBroken {
                     // show the cooked chicken when the streak is broken
                     StudyCookedView(name: "ChickenCooked")
-                        .frame(width: 300, height: 300)
+                        .frame(width: 300, height: 500)
                         .padding()
                 } else {
                     // original behavior when streak is not broken

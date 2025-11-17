@@ -35,7 +35,7 @@ struct StudyCookedView: UIViewRepresentable {
     
     var body: some View {
         StudyCookedView(name: "ChickenCooked")
-            .frame(width: 200, height: 200)// Set appropriate frame
+            .frame(width: 300, height: 500)// Set appropriate frame
     }
 }
 
