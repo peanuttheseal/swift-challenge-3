@@ -32,7 +32,7 @@ struct ContentView : View {
     @State var action: String = "is resting"
     @State var name = "Chicken"
     @State var isFirstTime = true
-
+    @State private var showContent = false
     @State var isPresented: Bool = false
     @State private var defaultValue = "Chicken"
     
@@ -41,20 +41,26 @@ struct ContentView : View {
     var body: some View {
         NavigationStack {
             let hours = (goalTimeLeft - elapsedSeconds2) / 3600
-                   let remainingSeconds = (goalTimeLeft - elapsedSeconds2) % 3600
-                   let minutes = remainingSeconds / 60
-                   let seconds = remainingSeconds % 60
+            let remainingSeconds = (goalTimeLeft - elapsedSeconds2) % 3600
+            let minutes = remainingSeconds / 60
+            let seconds = remainingSeconds % 60
             VStack {
                 
                 // streak
                 Text("\(streak) days")
                     .monospaced()
                 
-                var quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "\(name) says you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "\(name) says you’re doing great!", "It’d be a pity not to put in any work now…", "Keep up the awesome work!", "\(name)  says do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Do study! I’d hate to have to use less…desirable methods.", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "Just a few minutes away from keeping your streak!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "You can do great things with just a few minutes of study time!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
+                let quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "\(name) says you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "\(name) says you’re doing great!", "It’d be a pity not to put in any work now…", "Keep up the awesome work!", "\(name) says do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Do study! I’d hate to have to use less…desirable methods.", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "Just a few minutes away from keeping your streak!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "You can do great things with just a few minutes of study time!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
                 if let randomQuote = quotes.randomElement() {
                     Text("\(randomQuote)")
-                    
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+                                self.showContent = true
+                            }
+                            
+                        }
                 }
+                
                 
                 // chicken animation
                 
@@ -154,7 +160,7 @@ struct ContentView : View {
                         if isFirstTime == true {
                             streak += 1
                             userDefaults.set(currentStreak, forKey: "streakCount")
-                                            WidgetCenter.shared.reloadAllTimelines()
+                            WidgetCenter.shared.reloadAllTimelines()
                             isFirstTime = false
                         }
                     } label: {
@@ -181,8 +187,8 @@ struct ContentView : View {
                     }
                 }
                 .onAppear {
-                            currentStreak = userDefaults.integer(forKey: "streakCount")
-                        }
+                    currentStreak = userDefaults.integer(forKey: "streakCount")
+                }
                 .alert("Continue study session?", isPresented: $showResumeAlert) {
                     Button("Continue") {
                         startTimer()
