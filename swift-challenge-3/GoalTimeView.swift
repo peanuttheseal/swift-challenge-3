@@ -26,20 +26,17 @@ struct GoalTimeView: View {
             Text("Set your daily time goal!")
                 .font(.title)
                 .padding()
-                .monospaced()
             
             Text("You won’t see this popup again. You can edit your goal in Goals Page.")
                 .font(.title3)
                 .padding([.leading, .trailing], 50)
                 .padding(.bottom,20)
-                .monospaced()
             
             HStack{
                 VStack{
                     Text("Hours")
                         .font(.system(size:25))
                         .bold()
-                        .monospaced()
                     
                     Picker("Hours", selection: $selectedHour)
                     {
@@ -54,7 +51,6 @@ struct GoalTimeView: View {
                     Text("Minutes")
                         .font(.system(size:25))
                         .bold()
-                        .monospaced()
                     
                     Picker("Mintues", selection: $selectedMinute){
                         ForEach(minutes, id: \.self){
@@ -75,7 +71,6 @@ struct GoalTimeView: View {
                     .font(.title)
                 Text("Done")
                     .font(.title)
-                    .monospaced()
             }
         }
         .buttonStyle(.borderedProminent)

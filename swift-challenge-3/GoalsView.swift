@@ -38,16 +38,13 @@ struct GoalsView: View {
         
         VStack{
             Text("Time Goal:")
-                .monospaced()
                 .font(.title)
             ZStack{
                 VStack{
                     Text("Time left:")
-                        .monospaced()
                         .font(.title)
                     
                     Text(goalTimeLeft - elapsedSeconds2 <= 0 ? "Goal Met!!" : "\(hours)h \(minutes)m \(seconds)s")
-                        .monospaced()
                         .font(.title)
                 }
                 Circle()
@@ -66,7 +63,6 @@ struct GoalsView: View {
             changeGoalTime.toggle() }) {
                 Text("Change Time Goal")
                     .font(.title2)
-                    .monospaced()
                     .foregroundColor(.orange)
             }
             .padding()
@@ -77,13 +73,11 @@ struct GoalsView: View {
                         .font(.title)
                         .bold()
                         .padding()
-                        .monospaced()
                 HStack {
                     VStack{
                         Text("Hours")
                             .font(.system(size:25))
                             .bold()
-                            .monospaced()
                         
                         Picker("Hours", selection: $selectedHour)
                         {
@@ -98,7 +92,6 @@ struct GoalsView: View {
                         Text("Minutes")
                             .font(.system(size:25))
                             .bold()
-                            .monospaced()
                         
                         Picker("Mintues", selection: $selectedMinute){
                             ForEach(minutes2, id: \.self){
@@ -118,7 +111,6 @@ struct GoalsView: View {
                                 .font(.title)
                             Text("Done")
                                 .font(.title)
-                                .monospaced()
                         }
                     }
                     .buttonStyle(.borderedProminent)
