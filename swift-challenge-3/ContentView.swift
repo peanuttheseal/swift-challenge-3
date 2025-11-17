@@ -33,6 +33,8 @@ struct ContentView : View {
     @State var isFirstTime = true
     
     @State private var showingAlert = false
+    @State var isPresented: Bool = false
+    @State private var defaultValue = "Chicken"
     
     let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
     
@@ -70,7 +72,6 @@ struct ContentView : View {
                 HStack {
                     Button(action: {
                         changeName.toggle()
-                        showingAlert = true
                     }) {
                         Text(name)
                             .foregroundStyle(.orange)
@@ -89,17 +90,28 @@ struct ContentView : View {
                                 .textFieldStyle(.roundedBorder)
                                 .monospaced()
                             
-                            Button("Done",
-                                   action: { changeName.toggle() })
+                            Button("Done",action: {
+                                isPresented = false
+                                changeName.toggle()
+                                if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                    showingAlert = true
+                                }
+                                else {
+                                    print("Input is not blank/empty")
+                                }
+                                
+                            })
                         }
                         .padding()
-                    }
-                    .alert(isPresented: $showingAlert) {
-                        if name.isEmpty {
-                            Alert(title: Text("Important message"), message: Text("This cannot be left blank"), dismissButton: .default(Text("Got it!")))
-                        }
-                        else {
-                            Alert(title: Text("Nil"), message: Text("Nil"), dismissButton: .default(Text("Nil")))
+                        .onDisappear{
+                            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                            
+                            if trimmed.isEmpty {
+                                name = defaultValue
+                            } else {
+                                defaultValue = name
+                            }
+                            
                         }
                     }
                 }
