@@ -28,7 +28,7 @@ struct GoalTimeView: View {
                 .padding()
                 .monospaced()
             
-            Text("You won’t see this popup again. You can edit your goal in Settings.")
+            Text("You won’t see this popup again. You can edit your goal in Goals Page.")
                 .font(.title3)
                 .padding([.leading, .trailing], 50)
                 .padding(.bottom,20)

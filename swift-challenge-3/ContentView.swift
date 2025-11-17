@@ -11,27 +11,28 @@ struct ContentView : View {
     
     @Environment(\.scenePhase) var scenePhase
     
-    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
+    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
     
     @State private var isRunning = false
-    @State private var elapsedSeconds: Int = 0
+    @AppStorage("elapsedSeconds", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var elapsedSeconds: Int = 0
     @State private var timer: Timer?
     @State private var wasPausedBeforeBackground = false
     @State private var showResumeAlert = false
     @State private var elapsedSeconds2: Int = 0
     @State private var changeName = false
     @State private var isSheetPresented = false
-    @State private var currentStreak: Int = 0
+    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentstreak: Int = 0
     @State private var showingAlert = false
     
     @State var startDate: Date?
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
     @State var currentTime: Date?
-    @State var goalTimeLeft: Int
+    @AppStorage("goalTimeLeft", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var goalTimeLeft: Int = 0
     @State var action: String = "is resting"
     @State var name = "Chicken"
     @State var isFirstTime = true
+    @State private var showContent = false
     @State var isPresented: Bool = false
     @State private var defaultValue = "Chicken"
     @State var quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "I say you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "I say you’re doing great!", "It’d be a pity not to put in any work now…", "Keep up the awesome work!", "I say do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Do study! I’d hate to have to use less…desirable methods.", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "Just a few minutes away from keeping your streak!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "You can do great things with just a few minutes of study time!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
@@ -40,6 +41,13 @@ struct ContentView : View {
 
   
     let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
+    
+    // computed property — not a stored variable — detects broken streak
+    private var isStreakBroken: Bool {
+        // simple rule: streak == 0 means it's broken.
+        // If you prefer day-based detection, compare a saved lastStudyDay timestamp instead.
+        return streak == 0
+    }
     
     var body: some View {
         
@@ -54,17 +62,36 @@ struct ContentView : View {
                 Text("\(streak) days")
                     .monospaced()
                 
+                let quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "\(name) says you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "\(name) says you’re doing great!", "It’d be a pity not to put in any work now…", "Keep up the awesome work!", "\(name) says do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "Just a few minutes away from keeping your streak!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "You can do great things with just a few minutes of study time!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
+                if let randomQuote = quotes.randomElement() {
+                    Text("\(randomQuote)")
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+                                self.showContent = true
+                            }
+                            
+                        }
+                }
+                
                 
                 // chicken animation
-                
-                if isRunning {
-                    StudyView(name: "ChickenStudy")
+                // <- MODIFIED: when isStreakBroken is true, show ChickenCookedView
+                if isStreakBroken {
+                    // show the cooked chicken when the streak is broken
+                    StudyCookedView(name: "ChickenCooked")
                         .frame(width: 300, height: 300)
                         .padding()
                 } else {
-                    RestView(name: "ChickenRest")
-                        .frame(width: 300, height: 300)
-                        .padding()
+                    // original behavior when streak is not broken
+                    if isRunning {
+                        StudyView(name: "ChickenStudy")
+                            .frame(width: 300, height: 300)
+                            .padding()
+                    } else {
+                        RestView(name: "ChickenRest")
+                            .frame(width: 300, height: 300)
+                            .padding()
+                    }
                 }
                 
                 // change chicken name
@@ -74,6 +101,7 @@ struct ContentView : View {
                     }) {
                         Text(name)
                             .foregroundStyle(.orange)
+                            .monospaced()
                     }
                     .font(.title2)
                     .sheet(isPresented: $changeName, onDismiss: didDismiss) {
@@ -152,7 +180,7 @@ struct ContentView : View {
                         
                         if isFirstTime == true {
                             streak += 1
-                            userDefaults.set(currentStreak, forKey: "streakCount")
+                            userDefaults.set(streak, forKey: "streakCount")
                             WidgetCenter.shared.reloadAllTimelines()
                             isFirstTime = false
                         }
@@ -180,7 +208,7 @@ struct ContentView : View {
                     }
                 }
                 .onAppear {
-                    currentStreak = userDefaults.integer(forKey: "streakCount")
+                    streak = userDefaults.integer(forKey: "streakCount")
                 }
                 .alert("Continue study session?", isPresented: $showResumeAlert) {
                     Button("Continue") {
@@ -231,7 +259,3 @@ struct ContentView : View {
 }
     
 
-
-#Preview {
-    ContentView(goalTimeLeft: 5)
-}
