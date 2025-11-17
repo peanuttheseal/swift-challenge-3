@@ -63,7 +63,7 @@ struct ContentView : View {
                         changeName.toggle()
                     }) {
                         Text(name)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.orange)
                     }
                     .monospaced()
                     .font(.title2)
