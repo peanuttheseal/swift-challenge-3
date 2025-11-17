@@ -38,7 +38,7 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct StreakWidgetEntryView : View {
-    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
+    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
     var entry: Provider.Entry
 
     var body: some View {
