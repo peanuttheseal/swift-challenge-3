@@ -18,7 +18,7 @@ struct GoalsView: View {
     private let themeColor1: Color = Color(red: 252/255, green: 227/255, blue: 172/255)
     private let circlePadding: CGFloat = 50.0
     
-    @Binding var isPresented2: Bool
+    @State var isPresented2: Bool = false
     @State private var selectedHour = 00
     @State private var selectedMinute = 00
     let hours2 = [00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
@@ -68,11 +68,14 @@ struct GoalsView: View {
                     .font(.title2)
                     .monospaced()
                     .foregroundColor(.orange)
-                    .buttonStyle(.borderedProminent)
             }
+            .padding()
+            .background(.black.opacity(0.1))
+            .cornerRadius(30)
             .sheet(isPresented: $changeGoalTime , onDismiss: didDismiss){
                     Text("Set your daily time goal!")
                         .font(.title)
+                        .bold()
                         .padding()
                         .monospaced()
                 HStack {
@@ -108,6 +111,7 @@ struct GoalsView: View {
                     Button {
                         selectedTime()
                         isPresented2 = false
+                        changeGoalTime = false
                     } label: {
                         HStack{
                             Image(systemName: "checkmark.circle")

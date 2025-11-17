@@ -34,7 +34,6 @@ struct ContentView : View {
     @State var isFirstTime = true
     @State private var showContent = false
     @State var isPresented: Bool = false
-    @State var isPresented2: Bool = false
     @State private var defaultValue = "Chicken"
     
     let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
@@ -130,7 +129,7 @@ struct ContentView : View {
                 
                 // button to go to study goal time
                 NavigationLink(goalTimeLeft - elapsedSeconds2 <= 0 ? "Goal Time Finished!" : "Goal Time Left: \n  \(hours)h \(minutes)m \(seconds)s") {
-                    GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft,  isPresented2: $isPresented2)
+                    GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)
                 .monospaced()
