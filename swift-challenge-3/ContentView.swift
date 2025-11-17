@@ -194,17 +194,24 @@ struct ContentView : View {
                     if scenePhase == .background {
                         if !isRunning && elapsedSeconds > 0 {
                             wasPausedBeforeBackground = true
+                            userDefaults.set(true, forKey: "wasPaused")
                         }
                     }
                     if scenePhase == .active {
                         if wasPausedBeforeBackground {
                             showResumeAlert = true
                             wasPausedBeforeBackground = false
+                            userDefaults.set(false, forKey: "wasPaused")
                         }
                     }
                 }
                 .onAppear {
                     streak = userDefaults.integer(forKey: "streakCount")
+                    
+                    let wasPaused = userDefaults.bool(forKey: "wasPaused")
+                    if wasPaused && !isRunning && elapsedSeconds > 0 {
+                        showResumeAlert = true
+                    }
                 }
                 .alert("Continue study session?", isPresented: $showResumeAlert) {
                     Button("Continue") {
