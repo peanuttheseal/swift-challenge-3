@@ -34,10 +34,16 @@ struct ContentView : View {
     @State var isFirstTime = true
     @State private var showContent = false
     @State var isPresented: Bool = false
-    @State var isPresented2: Bool = false
     @State private var defaultValue = "Chicken"
     
     let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
+    
+    // computed property — not a stored variable — detects broken streak
+    private var isStreakBroken: Bool {
+        // simple rule: streak == 0 means it's broken.
+        // If you prefer day-based detection, compare a saved lastStudyDay timestamp instead.
+        return streak == 0
+    }
     
     var body: some View {
         NavigationStack {
@@ -64,15 +70,23 @@ struct ContentView : View {
                 
                 
                 // chicken animation
-                
-                if isRunning {
-                    StudyView(name: "ChickenStudy")
+                // <- MODIFIED: when isStreakBroken is true, show ChickenCookedView
+                if isStreakBroken {
+                    // show the cooked chicken when the streak is broken
+                    StudyCookedView(name: "ChickenCooked")
                         .frame(width: 300, height: 300)
                         .padding()
                 } else {
-                    RestView(name: "ChickenRest")
-                        .frame(width: 300, height: 300)
-                        .padding()
+                    // original behavior when streak is not broken
+                    if isRunning {
+                        StudyView(name: "ChickenStudy")
+                            .frame(width: 300, height: 300)
+                            .padding()
+                    } else {
+                        RestView(name: "ChickenRest")
+                            .frame(width: 300, height: 300)
+                            .padding()
+                    }
                 }
                 
                 // change chicken name
@@ -130,7 +144,7 @@ struct ContentView : View {
                 
                 // button to go to study goal time
                 NavigationLink(goalTimeLeft - elapsedSeconds2 <= 0 ? "Goal Time Finished!" : "Goal Time Left: \n  \(hours)h \(minutes)m \(seconds)s") {
-                    GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft,  isPresented2: $isPresented2)
+                    GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)
                 .monospaced()
