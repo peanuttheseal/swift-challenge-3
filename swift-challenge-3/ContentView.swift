@@ -20,9 +20,10 @@ struct ContentView : View {
     @State private var showResumeAlert = false
     @State private var elapsedSeconds2: Int = 0
     @State private var changeName = false
-    @State private var isSheetPresented = false
     @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentstreak: Int = 0
     @State private var showingAlert = false
+    @AppStorage("lastSheetDate") private var lastSheetDate: String = ""
+    @State private var isSheetPresented = false
     
     @State var startDate: Date?
     @State var isAnimationPaused = true
@@ -225,7 +226,16 @@ struct ContentView : View {
             GoalTimeView(isPresented: $isSheetPresented, goalTimeLeft: $goalTimeLeft)
         }
         .onAppear {
-            isSheetPresented = true
+            let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd"   // only the date, no time
+                
+                let today = formatter.string(from: Date())
+                
+                if lastSheetDate != today {
+                    // first time opening app today
+                    isSheetPresented = true
+                    lastSheetDate = today
+                }
         }
     }
     

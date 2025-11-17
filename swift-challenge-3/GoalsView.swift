@@ -73,7 +73,7 @@ struct GoalsView: View {
             .background(.black.opacity(0.1))
             .cornerRadius(30)
             .sheet(isPresented: $changeGoalTime , onDismiss: didDismiss){
-                    Text("Set your daily time goal!")
+                    Text("Change your daily time goal:")
                         .font(.title)
                         .bold()
                         .padding()
