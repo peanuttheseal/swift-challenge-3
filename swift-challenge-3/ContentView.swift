@@ -127,7 +127,7 @@ struct ContentView : View {
                     .font(.title2)
                 
                 // button to go to study goal time
-                NavigationLink("Goal Time Left: \n  \(hours)h \(minutes)m \(seconds)s") {
+                NavigationLink(goalTimeLeft - elapsedSeconds2 <= 0 ? "Goal Time Finished!" : "Goal Time Left: \n  \(hours)h \(minutes)m \(seconds)s") {
                     GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft)
                 }
                 .font(.title2)

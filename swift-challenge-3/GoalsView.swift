@@ -33,7 +33,7 @@ struct GoalsView: View {
                         .monospaced()
                         .font(.title)
 
-                    Text("\(hours)h \(minutes)m \(seconds)s")
+                    Text(oalTimeLeft - elapsedSeconds2 <= 0 ? "Goal Time Finished!" : "\(hours)h \(minutes)m \(seconds)s")
                         .monospaced()
                         .font(.title)
                 }
