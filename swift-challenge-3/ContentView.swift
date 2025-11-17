@@ -55,9 +55,16 @@ struct ContentView : View {
                 }
                 
                 // chicken animation
-                RestView(name: "ChickenRest")
-                    .frame(width: 300, height: 300)
-                    .padding()
+                
+                if isRunning {
+                    StudyView(name: "ChickenStudy")
+                        .frame(width: 300, height: 300)
+                        .padding()
+                } else {
+                    RestView(name: "ChickenRest")
+                        .frame(width: 300, height: 300)
+                        .padding()
+                }
                 
                 // change chicken name
                 HStack {
