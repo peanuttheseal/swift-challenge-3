@@ -64,14 +64,14 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct StreakWidgetEntryView : View {
-    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentStreak: Int = 0
+    @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
     var entry: Provider.Entry
 
     var body: some View {
         VStack {
             Text("🔥🐓   S T R E A K   🐓🔥")
                 .font(.headline)
-            Text("\(currentStreak) days!")
+            Text("\(streak) days!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
         }
