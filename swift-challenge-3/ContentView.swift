@@ -18,7 +18,7 @@ struct ContentView : View {
     @State private var timer: Timer?
     @State private var wasPausedBeforeBackground = false
     @State private var showResumeAlert = false
-    @State private var elapsedSeconds2: Int = 0
+    @AppStorage("elapsedSeconds2", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var elapsedSeconds2: Int = 0
     @State private var changeName = false
     @State private var isSheetPresented = false
     @AppStorage("currentStreak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var currentstreak: Int = 0
