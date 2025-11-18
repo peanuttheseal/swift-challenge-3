@@ -75,6 +75,9 @@ struct ContentView : View {
                         .opacity(isRunning ? 0 : 1) // Fade out instead of removing
                 }
                 
+                if goalTimeLeft - elapsedSeconds2 <= 0 {
+                    Image("ChickenPartyHat")
+                }
                 
                 
                 // chicken animation
@@ -82,7 +85,7 @@ struct ContentView : View {
                 if isStreakBroken {
                     // show the cooked chicken when the streak is broken
                     StudyCookedView(name: "ChickenCooked")
-                        .frame(width: 300, height: 500)
+                        .frame(width: 300, height: 350)
                         .padding()
                 } else {
                     // original behavior when streak is not broken
@@ -297,5 +300,8 @@ struct ContentView : View {
     
     func didDismiss() {}
 }
-    
+
+#Preview {
+    ContentView(goalTimeLeft: 5)
+}
 
