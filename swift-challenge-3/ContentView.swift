@@ -44,10 +44,6 @@ struct ContentView : View {
     @State var lastUpdate: Date?
     @State var currentTime: Date?
     @State var action: String = "is resting"
-    @AppStorage("name", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var name = "Chicken"
-    
-    @AppStorage("isFirstTime") private var isFirstTime = true
-    @State private var showContent = false
     @State var isPresented: Bool = false
     @State var lastTimerStart: Date
     
