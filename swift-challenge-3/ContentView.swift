@@ -45,7 +45,7 @@ struct ContentView : View {
     @State var currentTime: Date?
     @State var action: String = "is resting"
     @State var isPresented: Bool = false
-    @State var lastTimerStart: Date
+    @State var lastTimerStart: Calendar
     
     @State var quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "I say you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "I say you’re doing great!", "Keep up the awesome work!", "I say do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Do study! I’d hate to have to use less…desirable methods.", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
        
@@ -129,16 +129,8 @@ struct ContentView : View {
         
                 
                 VStack {
-                let quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "\(name) says you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "\(name) says you’re doing great!", "It’d be a pity not to put in any work now…", "Keep up the awesome work!", "\(name) says do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "Just a few minutes away from keeping your streak!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
-                
                             
-                    // streak
-                    Text("🔥 \(streak) day streak")
-                        .bold()
-                        .font(.largeTitle)
-                        .padding()
-                        
-                                
+                   
                 if let randomQuote = quotes.randomElement() {
                     Text(isRunning ? " " : randomQuote)
                         .frame(minHeight: 20) // Reserve space even when empty
@@ -147,7 +139,19 @@ struct ContentView : View {
                 
                 ZStack {
                     
-                    
+                    if goalTimeLeft - elapsedSeconds2 <= 0 {
+                        Image("ChickenPartyHat")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 70, height: 152)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                            .padding()
+                            .padding()
+                            .padding()
+                            .disabled(true)
+                            .allowsHitTesting(false)
+                            .opacity (isRunning ? 0 : 1)
+                    }
                     
                     
                     // chicken animation
@@ -393,4 +397,6 @@ struct ContentView : View {
     func didDismiss() {}
 }
 
-
+#Preview {
+    ContentView(goalTimeLeft: 5, lastTimerStart: Calendar.current)
+}
