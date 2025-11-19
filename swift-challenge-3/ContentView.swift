@@ -11,7 +11,6 @@ struct ContentView : View {
     
     @Environment(\.scenePhase) var scenePhase
     
-    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
     
     @State private var isRunning = false
     @AppStorage("elapsedSeconds", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var elapsedSeconds: Int = 0
@@ -25,23 +24,29 @@ struct ContentView : View {
     @AppStorage("lastSheetDate") private var lastSheetDate: String = ""
     @State private var isSheetPresented = false
     
-    @State var startDate: Date?
+//    @State var startDate: Date
+    @AppStorage("lastOpenedDate", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var lastOpenedDate: Date = Date.distantPast
+    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
+    @AppStorage("buttonClickedDate") var buttonClickedDate: Date = .distantPast
+    
+    
+    //@State var startDate: Date?
     @State var isAnimationPaused = true
     @State var lastUpdate: Date?
     @State var currentTime: Date?
     @AppStorage("goalTimeLeft", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var goalTimeLeft: Int = 0
     @State var action: String = "is resting"
     @AppStorage("name", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var name = "Chicken"
-   
+    
     @AppStorage("isFirstTime") private var isFirstTime = true
     @State private var showContent = false
     @State var isPresented: Bool = false
     @State private var defaultValue = "Chicken"
     @State var quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "I say you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "I say you’re doing great!", "It’d be a pity not to put in any work now…", "Keep up the awesome work!", "I say do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Do study! I’d hate to have to use less…desirable methods.", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "Just a few minutes away from keeping your streak!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "You can do great things with just a few minutes of study time!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
-       
+    
     //@State var randomQuote = quotes.randomElement()
-
-  
+    
+    
     let userDefaults = UserDefaults(suiteName: "group.yourbundleidentifier.streaks")!
     
     // computed property — not a stored variable — detects broken streak
@@ -58,15 +63,46 @@ struct ContentView : View {
             let remainingSeconds = (goalTimeLeft - elapsedSeconds2) % 3600
             let minutes = remainingSeconds / 60
             let seconds = remainingSeconds % 60
+            
+            
+            
             VStack {
-                            
-                    // streak
-                    Text("🔥 \(streak) day streak")
-                        .bold()
-                        .font(.largeTitle)
-                        .padding()
-                        
                 
+                // streak
+                Text("🔥 \(streak) day streak")
+                    .bold()
+                    .font(.largeTitle)
+                    .padding()
+            }
+            .onAppear {
+                let currentDate = Date()
+                let calendar = Calendar.current
+                
+                let diff = calendar.dateComponents([.day], from: lastOpenedDate, to: currentDate).day ?? 0
+                let buttonDiff = calendar.dateComponents([.day], from: buttonClickedDate, to: currentDate).day ?? 0
+                
+                if lastOpenedDate == .distantPast && buttonDiff == 1 {
+                        streak = 1
+                        lastOpenedDate = currentDate
+                        return
+                    }
+                
+                if diff == 1 && buttonDiff == 1 {
+                    // continued streak
+                    streak += 1
+                } else if diff > 1 {
+                    // streak broken
+                    streak = 0
+                } else if diff == 0 {
+                    // same day, do nothing
+                }
+                
+                lastOpenedDate = currentDate
+            }
+
+        
+                
+                VStack {
                 let quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "\(name) says you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "\(name) says you’re doing great!", "It’d be a pity not to put in any work now…", "Keep up the awesome work!", "\(name) says do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "Just a few minutes away from keeping your streak!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
                 
                 if let randomQuote = quotes.randomElement() {
@@ -159,6 +195,9 @@ struct ContentView : View {
                 // timer
                 HStack {
                     Button {
+                        
+                        buttonClickedDate = Date()
+                        
                         if isRunning {
                             timer?.invalidate()
                             timer = nil
@@ -168,10 +207,10 @@ struct ContentView : View {
                         } else {
                             isRunning = true
                             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                            elapsedSeconds += 1
-                            elapsedSeconds2 += 1
-                            action = "is studying"
-                            
+                                elapsedSeconds += 1
+                                elapsedSeconds2 += 1
+                                action = "is studying"
+                                
                             }
                         }
                         
@@ -230,15 +269,15 @@ struct ContentView : View {
         }
         .onAppear {
             let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd"   // only the date, no time
-                
-                let today = formatter.string(from: Date())
-                
-                if lastSheetDate != today {
-                    // first time opening app today
-                    isSheetPresented = true
-                    lastSheetDate = today
-                }
+            formatter.dateFormat = "yyyy-MM-dd"   // only the date, no time
+            
+            let today = formatter.string(from: Date())
+            
+            if lastSheetDate != today {
+                // first time opening app today
+                isSheetPresented = true
+                lastSheetDate = today
+            }
         }
     }
     
@@ -270,5 +309,5 @@ struct ContentView : View {
     
     func didDismiss() {}
 }
-    
+
 
