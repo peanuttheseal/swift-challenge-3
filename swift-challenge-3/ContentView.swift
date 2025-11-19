@@ -19,6 +19,8 @@ struct ContentView : View {
     @AppStorage("name", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var name = "Chicken"
     @AppStorage("goalTimeLeft", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var goalTimeLeft: Int = 0
     @AppStorage("isFirstTime") private var isFirstTime = true
+    @AppStorage("lastResetDate", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
+    private var lastResetDate: String = ""
     
     @State private var isRunning = false
     @State private var timer: Timer?
@@ -51,6 +53,29 @@ struct ContentView : View {
         // If you prefer day-based detection, compare a saved lastStudyDay timestamp instead.
         return streak == 0
     }
+    
+    // Timer Reset Everyday Logic
+    func resetIfNewDay() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+
+        let today = formatter.string(from: Date())
+
+        // If never saved before → collect it and don't reset
+        if lastResetDate.isEmpty {
+            lastResetDate = today
+            return
+        }
+
+        // If date changed → it's a new day → reset timer
+        if lastResetDate != today {
+            elapsedSeconds = 0
+            elapsedSeconds2 = 0
+            isRunning = false
+            lastResetDate = today
+        }
+    }
+
     
     var body: some View {
         
@@ -171,11 +196,15 @@ struct ContentView : View {
                             action = "is resting"
                         } else {
                             isRunning = true
+                            let formatter = DateFormatter()
+                            formatter.dateFormat = "yyyy-MM-dd"
+                            lastResetDate = formatter.string(from: Date())
                             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                                 elapsedSeconds += 1
                                 elapsedSeconds2 += 1
                                 action = "is studying"
                             }
+                            
                             
                             // Daily streak logic with date tracking
                             let calendar = Calendar.current
@@ -235,9 +264,11 @@ struct ContentView : View {
                             wasPausedBeforeBackground = false
                             userDefaults.set(false, forKey: "wasPaused")
                         }
+                        resetIfNewDay()
                     }
                 }
                 .onAppear {
+                    resetIfNewDay()
                     streak = userDefaults.integer(forKey: "streakCount")
                     
                     let wasPaused = userDefaults.bool(forKey: "wasPaused")
@@ -300,9 +331,5 @@ struct ContentView : View {
     }
     
     func didDismiss() {}
-}
-
-#Preview {
-    ContentView(goalTimeLeft: 5)
 }
 
