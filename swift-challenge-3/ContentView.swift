@@ -19,6 +19,8 @@ struct ContentView : View {
     @AppStorage("name", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var name = "Chicken"
     @AppStorage("goalTimeLeft", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var goalTimeLeft: Int = 0
     @AppStorage("isFirstTime") private var isFirstTime = true
+    @AppStorage("lastResetDate", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
+    private var lastResetDate: String = ""
     
     @State private var isRunning = false
     @State private var timer: Timer?
@@ -36,13 +38,12 @@ struct ContentView : View {
     @State var currentTime: Date?
     @State var action: String = "is resting"
     @State var isPresented: Bool = false
-    @State var lastTimerStart: Calendar
+    @State var lastTimerStart: Date
     
     @State var quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "I say you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "I say you’re doing great!", "Keep up the awesome work!", "I say do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Do study! I’d hate to have to use less…desirable methods.", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
        
     
 
-    
   
     let userDefaults = UserDefaults(suiteName: "group.sg.tk.2025.4pm")!
     
@@ -53,6 +54,29 @@ struct ContentView : View {
         return streak == 0
     }
     
+    // Timer Reset Everyday Logic
+    func resetIfNewDay() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+
+        let today = formatter.string(from: Date())
+
+        // If never saved before → collect it and don't reset
+        if lastResetDate.isEmpty {
+            lastResetDate = today
+            return
+        }
+
+        // If date changed → it's a new day → reset timer
+        if lastResetDate != today {
+            elapsedSeconds = 0
+            elapsedSeconds2 = 0
+            isRunning = false
+            lastResetDate = today
+        }
+    }
+
+    
     var body: some View {
         
         NavigationStack {
@@ -60,7 +84,6 @@ struct ContentView : View {
             let remainingSeconds = (goalTimeLeft - elapsedSeconds2) % 3600
             let minutes = remainingSeconds / 60
             let seconds = remainingSeconds % 60
-            
             VStack {
                             
                     // streak
@@ -114,7 +137,6 @@ struct ContentView : View {
                         }
                     }
                 }
-                
                 
                 // change chicken name
                 HStack {
@@ -186,6 +208,9 @@ struct ContentView : View {
                             action = "is resting"
                         } else {
                             isRunning = true
+                            let formatter = DateFormatter()
+                            formatter.dateFormat = "yyyy-MM-dd"
+                            lastResetDate = formatter.string(from: Date())
                             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                                 elapsedSeconds += 1
                                 elapsedSeconds2 += 1
@@ -250,9 +275,11 @@ struct ContentView : View {
                             wasPausedBeforeBackground = false
                             userDefaults.set(false, forKey: "wasPaused")
                         }
+                        resetIfNewDay()
                     }
                 }
                 .onAppear {
+                    resetIfNewDay()
                     streak = userDefaults.integer(forKey: "streakCount")
                     
                     let wasPaused = userDefaults.bool(forKey: "wasPaused")
@@ -315,9 +342,5 @@ struct ContentView : View {
     }
     
     func didDismiss() {}
-}
-
-#Preview {
-    ContentView(goalTimeLeft: 5, lastTimerStart: Calendar.current)
 }
 
