@@ -157,16 +157,23 @@ struct ContentView : View {
                         StudyCookedView(name: "ChickenCooked")
                             .frame(width: 300, height: 350)
                             .padding()
+                            .disabled(true)
+                            .allowsHitTesting(false)
+
                     } else {
                         // original behavior when streak is not broken
                         if isRunning {
                             StudyView(name: "ChickenStudy")
                                 .frame(width: 300, height: 300)
                                 .padding()
+                                .disabled(true)
+                                .allowsHitTesting(false)
                         } else {
                             RestView(name: "ChickenRest")
                                 .frame(width: 300, height: 300)
                                 .padding()
+                                .disabled(true)
+                                .allowsHitTesting(false)
                         }
                         
                         if goalTimeLeft - elapsedSeconds2 <= 0 {
@@ -178,6 +185,8 @@ struct ContentView : View {
                                 .padding()
                                 .padding()
                                 .padding()
+                                .disabled(true)
+                                .allowsHitTesting(false)
                                 .opacity (isRunning ? 0 : 1)
                             
                         }
