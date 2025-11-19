@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C76FCACC2EC1A97D004EE053 /* Giffy in Frameworks */ = {isa = PBXBuildFile; productRef = C76FCACB2EC1A97D004EE053 /* Giffy */; };
 		D9DCE1E12EC856F2001B4D58 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9DCE1E02EC856F2001B4D58 /* WidgetKit.framework */; };
 		D9DCE1E32EC856F2001B4D58 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9DCE1E22EC856F2001B4D58 /* SwiftUI.framework */; };
 		D9DCE1F02EC856F5001B4D58 /* StreakWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D9DCE1DE2EC856F2001B4D58 /* StreakWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -76,7 +75,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C76FCACC2EC1A97D004EE053 /* Giffy in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,7 +141,6 @@
 			);
 			name = "swift-challenge-3";
 			packageProductDependencies = (
-				C76FCACB2EC1A97D004EE053 /* Giffy */,
 			);
 			productName = "swift-challenge-3";
 			productReference = D977819F2EBB0EDA004CCBF3 /* swift-challenge-3.app */;
@@ -199,7 +196,6 @@
 			mainGroup = D97781962EBB0EDA004CCBF3;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C76FCACA2EC1A97D004EE053 /* XCRemoteSwiftPackageReference "Giffy" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D97781A02EBB0EDA004CCBF3 /* Products */;
@@ -535,25 +531,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		C76FCACA2EC1A97D004EE053 /* XCRemoteSwiftPackageReference "Giffy" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tfmart/Giffy.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C76FCACB2EC1A97D004EE053 /* Giffy */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C76FCACA2EC1A97D004EE053 /* XCRemoteSwiftPackageReference "Giffy" */;
-			productName = Giffy;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D97781972EBB0EDA004CCBF3 /* Project object */;
 }
