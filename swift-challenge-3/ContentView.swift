@@ -94,10 +94,17 @@ struct ContentView : View {
                 let remainingSeconds = (goalTimeLeft - elapsedSeconds2) % 3600
                 let minutes = remainingSeconds / 60
                 let seconds = remainingSeconds % 60
-                VStack {
-                    
+                HStack {
+                    Image(systemName: "flame")
+                        .resizable()
+                        .frame(width: 40, height: 50)
+                        .padding()
+                        .scaledToFit()
+                        .background(ButtonTapped ? Color.red : Color.gray)
+                        .foregroundColor(ButtonTapped ? Color.orange : Color.black)
+                        .cornerRadius(12)
                     // streak
-                    Text("🔥 \(streak) day streak")
+                    Text(" \(streak) day streak")
                         .bold()
                         .font(.largeTitle)
                         .padding()
