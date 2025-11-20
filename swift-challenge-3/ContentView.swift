@@ -32,7 +32,7 @@ struct ContentView : View {
     @State private var showingAlert = false
     @State private var isSheetPresented = false
     
-    @State private var streak = 0
+    
     @AppStorage("tapDate") var TapDate: String?
     @AppStorage("Tappable") var ButtonTapped = false
     
@@ -296,9 +296,7 @@ struct ContentView : View {
                     }
                 }
                 .onAppear {
-                    resetIfNewDay()
-                    streak = userDefaults.integer(forKey: "streakCount")
-                    
+                    resetIfNewDay()                
                     let wasPaused = userDefaults.bool(forKey: "wasPaused")
                     if wasPaused && !isRunning && elapsedSeconds > 0 {
                         showResumeAlert = true
