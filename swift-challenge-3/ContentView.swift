@@ -21,7 +21,7 @@ struct ContentView : View {
     @AppStorage("lastResetDate", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
     private var lastResetDate: String = ""
     
-    
+    @State private var appWasInBackground = false
     
     @State private var isRunning = false
     @State private var timer: Timer?
@@ -295,15 +295,21 @@ struct ContentView : View {
                         if scenePhase == .background {
                             if !isRunning && elapsedSeconds > 0 {
                                 wasPausedBeforeBackground = true
+                                appWasInBackground = true      // <--- NEW
                                 userDefaults.set(true, forKey: "wasPaused")
                             }
                         }
+
                         if scenePhase == .active {
-                            if wasPausedBeforeBackground {
+                            if appWasInBackground && wasPausedBeforeBackground {
                                 showResumeAlert = true
-                                wasPausedBeforeBackground = false
-                                userDefaults.set(false, forKey: "wasPaused")
                             }
+
+                            // Reset flags AFTER alert logic
+                            wasPausedBeforeBackground = false
+                            appWasInBackground = false
+                            userDefaults.set(false, forKey: "wasPaused")
+
                             resetIfNewDay()
                         }
                     }
