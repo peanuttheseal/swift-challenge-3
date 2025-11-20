@@ -20,6 +20,9 @@ struct ContentView : View {
     @AppStorage("isFirstTime") private var isFirstTime = true
     @AppStorage("lastResetDate", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
     private var lastResetDate: String = ""
+    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
+    private var streak = 0
+
     
     @State private var isRunning = false
     @State private var timer: Timer?
