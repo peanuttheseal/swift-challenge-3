@@ -29,11 +29,9 @@ struct ContentView : View {
     @State private var showingAlert = false
     @State private var isSheetPresented = false
     
-//    @State var startDate: Date
-    @AppStorage("lastOpenedDate", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var lastOpenedDate: Date = Date.distantPast
-    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm")) var streak: Int = 0
-    @AppStorage("buttonClickedDate") var buttonClickedDate: Date = .distantPast
-    
+    @State private var streak = 0
+    @AppStorage("tapDate") var TapDate: String?
+    @AppStorage("Tappable") var ButtonTapped = false
     
     //@State var startDate: Date?
     @State private var showContent = false
@@ -99,31 +97,6 @@ struct ContentView : View {
                     .bold()
                     .font(.largeTitle)
                     .padding()
-            }
-            .onAppear {
-                let currentDate = Date()
-                let calendar = Calendar.current
-                
-                let diff = calendar.dateComponents([.day], from: lastOpenedDate, to: currentDate).day ?? 0
-                let buttonDiff = calendar.dateComponents([.day], from: buttonClickedDate, to: currentDate).day ?? 0
-                
-                if lastOpenedDate == .distantPast && buttonDiff == 1 {
-                        streak = 1
-                        lastOpenedDate = currentDate
-                        return
-                    }
-                
-                if diff == 1 && buttonDiff == 1 {
-                    // continued streak
-                    streak += 1
-                } else if diff > 1 {
-                    // streak broken
-                    streak = 0
-                } else if diff == 0 {
-                    // same day, do nothing
-                }
-                
-                lastOpenedDate = currentDate
             }
 
         
@@ -261,8 +234,6 @@ struct ContentView : View {
                     
                     Button {
                         
-                        buttonClickedDate = Date()
-                        
                         if isRunning {
                             timer?.invalidate()
                             timer = nil
@@ -278,39 +249,20 @@ struct ContentView : View {
                                 elapsedSeconds2 += 1
                                 action = "is studying"
                             }
+                        }
+                        if  TapDate == nil {
+                            //Check if user has already tapped
+                            self.ButtonTapped = true
+                            streak += 1
+                            self.TapDate = ("\(Date.getTomDate())")
+                        }
+                        else if ("\(Date.getTodayDate())") == TapDate {
+                            //Check for the consecutive Day of Streak
                             
-                            // Daily streak logic with date tracking
-                            let calendar = Calendar.current
-                            let today = calendar.startOfDay(for: Date())
-                            
-                            if let lastCompletionDate = userDefaults.object(forKey: "lastCompletionDate") as? Date {
-                                let lastDay = calendar.startOfDay(for: lastCompletionDate)
-                                
-                                // Check if it's a new day
-                                if !calendar.isDate(lastDay, inSameDayAs: today) {
-                                    // Check if streak should continue or reset
-                                    if let daysDifference = calendar.dateComponents([.day], from: lastDay, to: today).day {
-                                        if daysDifference == 1 {
-                                            // Consecutive day - increment streak
-                                            streak += 1
-                                        } else {
-                                            // Missed a day - reset streak
-                                            streak = 1
-                                        }
-                                    }
-                                    
-                                    // Update stored values
-                                    userDefaults.set(streak, forKey: "streakCount")
-                                    userDefaults.set(today, forKey: "lastCompletionDate")
-                                    WidgetCenter.shared.reloadAllTimelines()
-                                }
-                            } else {
-                                // First time ever - start streak
-                                streak = 1
-                                userDefaults.set(streak, forKey: "streakCount")
-                                userDefaults.set(today, forKey: "lastCompletionDate")
-                                WidgetCenter.shared.reloadAllTimelines()
-                            }
+                            self.TapDate = ("\(Date.getTomDate())")
+                            streak += 1
+                            //Let's light the flame back again.
+                            self.ButtonTapped = true
                         }
                     }
                     label: {
