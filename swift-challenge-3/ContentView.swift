@@ -20,8 +20,7 @@ struct ContentView : View {
     @AppStorage("isFirstTime") private var isFirstTime = true
     @AppStorage("lastResetDate", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
     private var lastResetDate: String = ""
-    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
-    private var streak = 0
+    
     
     
     @State private var isRunning = false
@@ -32,7 +31,8 @@ struct ContentView : View {
     @State private var showingAlert = false
     @State private var isSheetPresented = false
     
-    
+    @AppStorage("streak", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
+    private var streak = 0
     @AppStorage("tapDate") var TapDate: String?
     @AppStorage("Tappable") var ButtonTapped = false
     
@@ -271,7 +271,19 @@ struct ContentView : View {
                         Text(timeString(from: elapsedSeconds))
                             .font(.system(size: 40, weight: .medium))
                     }
-                    
+                    .onAppear {
+                        if ("\(Date.getTodayDate())") == TapDate ||
+                            ("\(Date.getTomDate())") == TapDate {
+                            self.ButtonTapped = true
+                        }
+                        //Breaking the Streak
+                        else {
+                            self.TapDate = nil
+                            self.ButtonTapped = false
+                            self.streak = 0
+                        }
+                  
+                    }
                     .onChange(of: scenePhase) {
                         if scenePhase == .background {
                             if !isRunning && elapsedSeconds > 0 {
