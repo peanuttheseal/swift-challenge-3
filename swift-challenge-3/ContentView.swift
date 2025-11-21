@@ -95,9 +95,9 @@ struct ContentView : View {
                 let minutes = remainingSeconds / 60
                 let seconds = remainingSeconds % 60
                 HStack {
-                    Image(systemName: "flame")
+                    Image(systemName: "flame.fill")
                         .resizable()
-                        .frame(width: 40, height: 50)
+                        .frame(width: 24, height: 30)
                         .padding()
                         .scaledToFit()
                         .background(ButtonTapped ? Color.red : Color.gray)
