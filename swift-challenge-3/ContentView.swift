@@ -183,8 +183,10 @@ struct ContentView : View {
                             NavigationStack {
                                 VStack {
                                     Text("You can click the chicken's name to edit it again")
+                                        .font(.title2)
                                     
                                     TextField("New Name", text: $name)
+                                        .font(.title2)
                                         .textFieldStyle(.roundedBorder)
                                         .onChange(of: name) { newValue in
                                             if newValue.count > characterLimit {
@@ -192,35 +194,35 @@ struct ContentView : View {
                                             }
                                         }
                                 }
-                            }
-                        }
-                        .navigationTitle("Change name")
-                        .toolbar {
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button {
-                                    isPresented = false
-                                    changeName.toggle()
-                                    if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                        showingAlert = true
+                                .navigationTitle("Change name")
+                                .toolbar {
+                                    ToolbarItem(placement: .confirmationAction) {
+                                        Button {
+                                            isPresented = false
+                                            changeName.toggle()
+                                            if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                                showingAlert = true
+                                            }
+                                            else {
+                                                print("Input is not blank/empty")
+                                            }
+                                        } label: {
+                                            Image(systemName: "checkmark")
+                                        }
                                     }
-                                    else {
-                                        print("Input is not blank/empty")
-                                    }
-                                } label: {
-                                    Image(systemName: "checkmark")
                                 }
+                                .padding()
+                                .tint(.orange)
+                                .onDisappear{
+                                    let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    
+                                    if trimmed.isEmpty {
+                                        name = defaultValue
+                                    } else {
+                                        defaultValue = name
+                                    }
                             }
                         }
-                        .padding()
-                        .tint(.orange)
-                        .onDisappear{
-                            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-                            
-                            if trimmed.isEmpty {
-                                name = defaultValue
-                            } else {
-                                defaultValue = name
-                            }
                             
                         }
                     }

@@ -80,6 +80,7 @@ struct GoalsView: View {
                 NavigationStack {
                     VStack {
                         Text("Goal Time: \(hours10)h \(minutes10)m \(seconds10)s")
+                            .font(.title)
                             .padding()
                         HStack {
                             VStack{
@@ -119,6 +120,7 @@ struct GoalsView: View {
                                 changeGoalTime = false
                             } label: {
                                 Image(systemName: "checkmark")
+                                    .tint(.orange)
                             }
                         }
                     }
