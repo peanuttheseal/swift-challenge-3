@@ -70,7 +70,7 @@ struct GoalsView: View {
             .cornerRadius(30)
             .sheet(isPresented: $changeGoalTime , onDismiss: didDismiss){
                 VStack {
-                    Text("Change your time goal:")
+                    Text("Change time goal:")
                         .font(.title)
                         .bold()
                         .padding()
