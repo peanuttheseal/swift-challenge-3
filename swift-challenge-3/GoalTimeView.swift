@@ -24,57 +24,57 @@ struct GoalTimeView: View {
     }
     
     var body: some View {
-        VStack {
-            Text("Set your daily time goal!")
-                .font(.title)
-                .padding()
-            
-            Text("You can edit this in Goals.")
-                .font(.title3)
-                .padding([.leading, .trailing], 50)
-                .padding(.bottom,20)
-            
-            HStack{
-                VStack{
-                    Text("Hours")
-                        .font(.system(size:25))
-                        .bold()
-                    
-                    Picker("Hours", selection: $selectedHour)
-                    {
-                        ForEach (hours, id: \.self) {
-                            Text(String(format:"%02d", $0))
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                }
-                
-                VStack{
-                    Text("Minutes")
-                        .font(.system(size:25))
-                        .bold()
-                    
-                    Picker("Mintues", selection: $selectedMinute){
-                        ForEach(minutes, id: \.self){
-                            Text(String(format: "%02d", $0))
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                }
-            }
-        }
-        
-        Button {
-            selectedTime()
-            isPresented = false
-        } label: {
-            HStack{
-                Image(systemName: "checkmark.circle")
+        NavigationStack {
+            VStack {
+                Text("Set your daily time goal!")
                     .font(.title)
-                Text("Done")
+                    .padding()
+                
+                Text("You can edit this in Goals.")
+                    .font(.title3)
+                    .padding([.leading, .trailing], 50)
+                    .padding(.bottom,20)
+                
+                HStack{
+                    VStack{
+                        Text("Hours")
+                            .font(.system(size:25))
+                            .bold()
+                        
+                        Picker("Hours", selection: $selectedHour)
+                        {
+                            ForEach (hours, id: \.self) {
+                                Text(String(format:"%02d", $0))
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                    }
+                    
+                    VStack{
+                        Text("Minutes")
+                            .font(.system(size:25))
+                            .bold()
+                        
+                        Picker("Mintues", selection: $selectedMinute){
+                            ForEach(minutes, id: \.self){
+                                Text(String(format: "%02d", $0))
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                    }
+                }
+            }
+            .navigationTitle("Change time goal")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button {
+                        selectedTime()
+                        isPresented = false
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                }
             }
         }
-        .buttonStyle(.borderedProminent)
-        .tint(.orange)
     }
 }
