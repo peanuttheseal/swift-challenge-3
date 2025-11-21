@@ -37,8 +37,6 @@ struct GoalsView: View {
         let seconds = remainingSeconds % 60
         
         VStack{
-            Text("Time Goal:")
-                .font(.title)
             ZStack{
                 VStack{
                     Text("Time left:")
