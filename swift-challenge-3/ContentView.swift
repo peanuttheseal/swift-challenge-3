@@ -99,7 +99,7 @@ struct ContentView : View {
                 HStack {
                     Image(systemName: "flame.fill")
                         .resizable()
-                        .frame(width: 28, height: 35)
+                        .frame(width: 16, height: 20)
                         .scaledToFit()
                         .background(Color.white)
                         .foregroundColor(ButtonTapped ? Color.orange : Color.gray)
@@ -107,8 +107,7 @@ struct ContentView : View {
                     // streak
                     Text(" \(streak) day streak")
                         .bold()
-                        .font(.largeTitle)
-                        .padding()
+                        .font(.title2)
                 }
                 
                 
@@ -128,7 +127,7 @@ struct ContentView : View {
                         if isStreakBroken {
                             // show the cooked chicken when the streak is broken
                             StudyCookedView(name: "ChickenCooked")
-                                .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.7)
+                                .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.73)
                                 .disabled(true)
                                 .allowsHitTesting(false)
                             
@@ -136,7 +135,7 @@ struct ContentView : View {
                             // original behavior when streak is not broken
                             if isRunning {
                                 StudyView(name: "ChickenStudy")
-                                    .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.7)         .disabled(true)
+                                    .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.73)         .disabled(true)
                                     .allowsHitTesting(false)
                             } else {
                                 
@@ -144,12 +143,12 @@ struct ContentView : View {
                                     Image("ChickenWithHat")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.7)
+                                        .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.73)
                                         .disabled(true)
                                         .allowsHitTesting(false)
                                         .opacity (isRunning ? 0 : 1)
                                 } else {
-                                    RestView(name: "ChickenRest").frame(width: geo.size.width * 0.7, height: geo.size.width * 0.7)
+                                    RestView(name: "ChickenRest").frame(width: geo.size.width * 0.7, height: geo.size.width * 0.73)
                                         .disabled(true)
                                         .allowsHitTesting(false)
                                 }
@@ -206,6 +205,7 @@ struct ContentView : View {
                                         }
                                         
                                     })
+                                    Color.orange
                                 }
                                 .padding()
                                 .onDisappear{

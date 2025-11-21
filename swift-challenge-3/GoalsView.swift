@@ -69,56 +69,52 @@ struct GoalsView: View {
             .background(.black.opacity(0.1))
             .cornerRadius(30)
             .sheet(isPresented: $changeGoalTime , onDismiss: didDismiss){
-                
-                VStack {
+                    Text("Change your daily time goal:")
+                        .font(.title)
+                        .bold()
+                        .padding()
+                HStack {
+                    VStack{
+                        Text("Hours")
+                            .font(.system(size:25))
+                            .bold()
+                        
+                        Picker("Hours", selection: $selectedHour)
+                        {
+                            ForEach (hours2, id: \.self) {
+                                Text(String(format:"%02d", $0))
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                    }
+                    
+                    VStack{
+                        Text("Minutes")
+                            .font(.system(size:25))
+                            .bold()
+                        
+                        Picker("Mintues", selection: $selectedMinute){
+                            ForEach(minutes2, id: \.self){
+                                Text(String(format: "%02d", $0))
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                    }
+                }
                     Button {
                         selectedTime()
                         isPresented2 = false
                         changeGoalTime = false
                     } label: {
                         HStack{
+                            Image(systemName: "checkmark.circle")
+                                .font(.title)
                             Text("Done")
+                            Color.orange
+                                .font(.title)
                         }
                     }
-                    Text("Change your daily time goal:")
-                        .font(.title)
-                        .bold()
-                        .padding()
-                    HStack {
-                        VStack{
-                            Text("Hours")
-                                .font(.system(size:25))
-                                .bold()
-                            
-                            Picker("Hours", selection: $selectedHour)
-                            {
-                                ForEach (hours2, id: \.self) {
-                                    Text(String(format:"%02d", $0))
-                                }
-                            }
-                            .pickerStyle(.wheel)
-                        }
-                        
-                        VStack{
-                            Text("Minutes")
-                                .font(.system(size:25))
-                                .bold()
-                            
-                            Picker("Mintues", selection: $selectedMinute){
-                                ForEach(minutes2, id: \.self){
-                                    Text(String(format: "%02d", $0))
-                                }
-                            }
-                            .pickerStyle(.wheel)
-                        }
-                    }
-                    
-                }
-                .onAppear {
-                        let total = goalTimeLeft
-                        selectedHour = total / 3600
-                        selectedMinute = (total % 3600) / 60
-                    }
+                    .buttonStyle(.borderedProminent)
             }
     }
     
