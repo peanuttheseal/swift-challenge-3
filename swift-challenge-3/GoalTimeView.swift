@@ -74,5 +74,6 @@ struct GoalTimeView: View {
             }
         }
         .buttonStyle(.borderedProminent)
+        .tint(.orange)
     }
 }

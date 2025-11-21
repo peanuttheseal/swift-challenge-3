@@ -128,7 +128,7 @@ struct ContentView : View {
                         if isStreakBroken {
                             // show the cooked chicken when the streak is broken
                             StudyCookedView(name: "ChickenCooked")
-                                .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.7)
+                                .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.73)
                                 .disabled(true)
                                 .allowsHitTesting(false)
                             
@@ -136,7 +136,7 @@ struct ContentView : View {
                             // original behavior when streak is not broken
                             if isRunning {
                                 StudyView(name: "ChickenStudy")
-                                    .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.7)         .disabled(true)
+                                    .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.73)         .disabled(true)
                                     .allowsHitTesting(false)
                             } else {
                                 
@@ -144,12 +144,12 @@ struct ContentView : View {
                                     Image("ChickenWithHat")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.7)
+                                        .frame(width: geo.size.width * 0.7, height: geo.size.width * 0.73)
                                         .disabled(true)
                                         .allowsHitTesting(false)
                                         .opacity (isRunning ? 0 : 1)
                                 } else {
-                                    RestView(name: "ChickenRest").frame(width: geo.size.width * 0.7, height: geo.size.width * 0.7)
+                                    RestView(name: "ChickenRest").frame(width: geo.size.width * 0.7, height: geo.size.width * 0.73)
                                         .disabled(true)
                                         .allowsHitTesting(false)
                                 }
