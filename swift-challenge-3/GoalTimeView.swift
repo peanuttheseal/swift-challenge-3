@@ -67,7 +67,6 @@ struct GoalTimeView: View {
                         isPresented = false
                     } label: {
                         Image(systemName: "checkmark")
-                            .tint(.orange)
                     }
                 }
             }

@@ -120,7 +120,6 @@ struct GoalsView: View {
                                 changeGoalTime = false
                             } label: {
                                 Image(systemName: "checkmark")
-                                    .tint(.orange)
                             }
                         }
                     }
