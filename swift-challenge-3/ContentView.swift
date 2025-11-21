@@ -97,10 +97,9 @@ struct ContentView : View {
                 HStack {
                     Image(systemName: "flame.fill")
                         .resizable()
-                        .frame(width: 24, height: 30)
-                        .padding()
+                        .frame(width: 28, height: 35)
                         .scaledToFit()
-                        .background(ButtonTapped ? Color.red : Color.gray)
+                        .background(ButtonTapped ? Color.white : Color.gray)
                         .foregroundColor(ButtonTapped ? Color.orange : Color.black)
                         .cornerRadius(12)
                     // streak
