@@ -64,7 +64,7 @@ struct GoalTimeView: View {
                     }
                 }
             }
-            .navigationTitle("Change time goal")
+            .navigationTitle("Set your time goal!")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
