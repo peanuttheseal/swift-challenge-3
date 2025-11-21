@@ -99,8 +99,8 @@ struct ContentView : View {
                         .resizable()
                         .frame(width: 28, height: 35)
                         .scaledToFit()
-                        .background(ButtonTapped ? Color.white : Color.gray)
-                        .foregroundColor(ButtonTapped ? Color.orange : Color.black)
+                        .background(Color.white)
+                        .foregroundColor(ButtonTapped ? Color.orange : Color.gray)
                         .cornerRadius(12)
                     // streak
                     Text(" \(streak) day streak")
