@@ -18,6 +18,7 @@ struct GoalsView: View {
     private let themeColor1: Color = Color(red: 252/255, green: 227/255, blue: 172/255)
     private let circlePadding: CGFloat = 50.0
     
+    @Binding var goalTime: Int
     @State var isPresented2: Bool = false
     @State private var selectedHour = 00
     @State private var selectedMinute = 00
@@ -25,7 +26,9 @@ struct GoalsView: View {
     let minutes2 = [00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59]
     
     func selectedTime(){
-        goalTimeLeft = selectedHour * 3600 + selectedMinute * 60
+        goalTime = selectedHour * 3600 + selectedMinute * 60
+        goalTimeLeft = goalTime
+        print("Goal Time: \(goalTime)")
         print(goalTimeLeft)
     }
     
@@ -36,7 +39,14 @@ struct GoalsView: View {
         let minutes = remainingSeconds / 60
         let seconds = remainingSeconds % 60
         
+        let hours10 = (goalTime) / 3600
+        let minutes10 = goalTime % 3600 / 60
+        let seconds10 = goalTime % 60
+        
         VStack{
+            
+            Text("Goal Time: \(hours10)h \(minutes10)m \(seconds10)s")
+            
             ZStack{
                 VStack{
                     Text("Time left:")
@@ -71,6 +81,8 @@ struct GoalsView: View {
                     Text("Change time goal:")
                         .font(.title)
                         .bold()
+                        .padding()
+                    Text("Goal Time: \(hours10)h \(minutes10)m \(seconds10)s")
                         .padding()
                     HStack {
                         VStack{

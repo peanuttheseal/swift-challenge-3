@@ -11,7 +11,7 @@ import SwiftUI
 struct swift_challenge_3App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(goalTimeLeft: 5, lastTimerStart: Calendar.current)
+            ContentView(goalTime: 0, goalTimeLeft: 5, lastTimerStart: Calendar.current)
         }
     }
 }

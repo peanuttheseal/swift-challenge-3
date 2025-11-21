@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 struct ContentView : View {
+    @State var goalTime : Int
     
     @Environment(\.scenePhase) var scenePhase
     
@@ -227,7 +228,7 @@ struct ContentView : View {
                         
                         // button to go to study goal time
                         NavigationLink(goalTimeLeft - elapsedSeconds2 <= 0 ? "Goal Time Finished!" : "Goal Time Left: \n  \(hours)h \(minutes)m \(seconds)s") {
-                            GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft)
+                            GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft, goalTime: $goalTime)
                         }
                         .font(.title2)
                         .bold()
@@ -336,7 +337,7 @@ struct ContentView : View {
                 }
             }
             .sheet(isPresented: $isSheetPresented) {
-                GoalTimeView(isPresented: $isSheetPresented, goalTimeLeft: $goalTimeLeft)
+                GoalTimeView(goalTime: $goalTime, isPresented: $isSheetPresented, goalTimeLeft: $goalTimeLeft)
             }
             .onAppear {
                 let formatter = DateFormatter()
@@ -383,5 +384,5 @@ struct ContentView : View {
 }
 
 #Preview {
-    ContentView(goalTimeLeft: 5, lastTimerStart: Calendar.current)
+    ContentView(goalTime: 0, goalTimeLeft: 5, lastTimerStart: Calendar.current)
 }
