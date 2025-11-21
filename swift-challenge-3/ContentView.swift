@@ -107,7 +107,7 @@ struct ContentView : View {
                     // streak
                     Text(" \(streak) day streak")
                         .bold()
-                        .font(.title2)
+                        .font(.title3)
                 }
                 
                 
