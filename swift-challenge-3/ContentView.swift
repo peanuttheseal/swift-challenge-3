@@ -99,7 +99,7 @@ struct ContentView : View {
                 HStack {
                     Image(systemName: "flame.fill")
                         .resizable()
-                        .frame(width: 28, height: 35)
+                        .frame(width: 16, height: 20)
                         .scaledToFit()
                         .background(Color.white)
                         .foregroundColor(ButtonTapped ? Color.orange : Color.gray)
@@ -107,8 +107,7 @@ struct ContentView : View {
                     // streak
                     Text(" \(streak) day streak")
                         .bold()
-                        .font(.largeTitle)
-                        .padding()
+                        .font(.title2)
                 }
                 
                 
@@ -206,6 +205,7 @@ struct ContentView : View {
                                         }
                                         
                                     })
+                                    Color.orange
                                 }
                                 .padding()
                                 .onDisappear{

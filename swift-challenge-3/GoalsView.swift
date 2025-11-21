@@ -110,6 +110,7 @@ struct GoalsView: View {
                             Image(systemName: "checkmark.circle")
                                 .font(.title)
                             Text("Done")
+                            Color.orange
                                 .font(.title)
                         }
                     }

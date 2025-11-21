@@ -27,7 +27,7 @@ struct GoalTimeView: View {
                 .font(.title)
                 .padding()
             
-            Text("You won’t see this popup again. You can edit your goal in Goals Page.")
+            Text("You can edit your goal in Goals Page.")
                 .font(.title3)
                 .padding([.leading, .trailing], 50)
                 .padding(.bottom,20)
@@ -70,6 +70,7 @@ struct GoalTimeView: View {
                 Image(systemName: "checkmark.circle")
                     .font(.title)
                 Text("Done")
+                Color.orange
                     .font(.title)
             }
         }
