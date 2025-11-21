@@ -208,6 +208,7 @@ struct ContentView : View {
                                             }
                                         } label: {
                                             Image(systemName: "checkmark")
+                                                .foregroundStyle(.black)
                                         }
                                     }
                                 }
