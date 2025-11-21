@@ -50,7 +50,7 @@ struct ContentView : View {
     @State var lastTimerStart: Calendar
     
     @State private var inputText: String = ""
-       let characterLimit: Int = 20
+    let characterLimit: Int = 20
     
     @State var quotes = ["Let’s get studying!", "Don’t give up!", "You got this!", "Keep going!", "Come on, study today!", "I believe in you!", "You can do it!", "Believe in yourself!", "Don’t break your streak!", "Keep up the efforts!", "Study today!", "Carpe diem :)", "Seize the day!", "Get going!", "Please don’t kill me, study today!", "Start now!", "What are you waiting for?", "No sweat — study now!", "Study. Or else :)", "What a beautiful day!", "Keep up the hard work!", "Hello!", "Start studying now!", "I have faith in you!", "Get started now!", "Keep me alive! Study now!", "I say you can do it!", "Hang in there!", "I’m proud of you!", "You’re doing a great job!", "Your hard work is paying off!", "Don’t worry, be happy!", "Nice work!", "Look how far you’ve come!", "I say you’re doing great!", "Keep up the awesome work!", "I say do it for the brain work!", "Good evening!", "Exercise that mind, study today!", "Start studying today!", "Do study! I’d hate to have to use less…desirable methods.", "Just a little bit of effort…", "You got this! Do it for me!", "Lock in!!", "A little bit of time makes a huge difference!", "Can you reach your goal today?", "You’re doing great!", "Make me proud!", "Don’t give up on studying!", "STUDY. NOW.", "Yay!", "It’s a great day!", "Isn't this wonderful?", "Have an amazing day!", "I’m watching!", "Make that effort!", "Come on, meet your goal!", "Good afternoon!", "Don’t waste away, study today!", "Why let your brain rot?", "Hey!", "You’ve come this far, it’d be a pity to stop now!", "You’re doing too well to stop now!", "Good day!", "Have a good day!", "Be productive — start studying today!", "Do get some studying in!", "Productivity is key!", "Good morning!"]
     
@@ -155,35 +155,33 @@ struct ContentView : View {
                                 }
                                 
                             }
-                                
-                                //                            if goalTimeLeft - elapsedSeconds2 <= 0 {
-                                //                                Image("ChickenPartyHat")
-                                //                                    .resizable()
-                                //                                    .scaledToFit()
-                                //                                    .frame(width: 70, height: 152)
-                                //                                    .padding(.top,12)
-                                //                                    .disabled(true)
-                                //                                    .allowsHitTesting(false)
-                                //                                    .opacity (1)
-                                //
-                                //                            }
-                            }
+                            
+                            //                            if goalTimeLeft - elapsedSeconds2 <= 0 {
+                            //                                Image("ChickenPartyHat")
+                            //                                    .resizable()
+                            //                                    .scaledToFit()
+                            //                                    .frame(width: 70, height: 152)
+                            //                                    .padding(.top,12)
+                            //                                    .disabled(true)
+                            //                                    .allowsHitTesting(false)
+                            //                                    .opacity (1)
+                            //
+                            //                            }
                         }
-                        
-                        // change chicken name
-                        HStack {
-                            Button(action: {
-                                changeName.toggle()
-                            }) {
-                                Text(name)
-                                    .foregroundStyle(.orange)
-                            }
-                            .font(.title2)
-                            .sheet(isPresented: $changeName, onDismiss: didDismiss) {
+                    }
+                    
+                    // change chicken name
+                    HStack {
+                        Button(action: {
+                            changeName.toggle()
+                        }) {
+                            Text(name)
+                                .foregroundStyle(.orange)
+                        }
+                        .font(.title2)
+                        .sheet(isPresented: $changeName, onDismiss: didDismiss) {
+                            NavigationStack {
                                 VStack {
-                                    Text("Change Name:")
-                                        .font(.title)
-                                    
                                     Text("You can click the chicken's name to edit it again")
                                     
                                     TextField("New Name", text: $name)
@@ -193,166 +191,171 @@ struct ContentView : View {
                                                 name = String(newValue.prefix(characterLimit))
                                             }
                                         }
-
-                                    
-                                    Button("Done",action: {
-                                        isPresented = false
-                                        changeName.toggle()
-                                        if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                            showingAlert = true
-                                        }
-                                        else {
-                                            print("Input is not blank/empty")
-                                        }
-                                        
-                                    })
-                                    
-                                }
-                                .padding()
-                                .tint(.orange)
-                                .onDisappear{
-                                    let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-                                    
-                                    if trimmed.isEmpty {
-                                        name = defaultValue
-                                    } else {
-                                        defaultValue = name
-                                    }
-                                    
                                 }
                             }
                         }
-                        
-                        Text(action)
-                            .font(.title2)
-                        
-                        // button to go to study goal time
-                        NavigationLink(goalTimeLeft - elapsedSeconds2 <= 0 ? "Goal Time Finished!" : "Goal Time Left: \n  \(hours)h \(minutes)m \(seconds)s") {
-                            GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft, goalTime: $goalTime)
+                        .navigationTitle("Change name")
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button {
+                                    isPresented = false
+                                    changeName.toggle()
+                                    if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        showingAlert = true
+                                    }
+                                    else {
+                                        print("Input is not blank/empty")
+                                    }
+                                } label: {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
                         }
-                        .font(.title2)
-                        .bold()
-                        .foregroundStyle(.orange)
                         .padding()
-                        .background(.black.opacity(0.1))
-                        .cornerRadius(30)
-                        
-                        // timer
-                        HStack {
+                        .tint(.orange)
+                        .onDisappear{
+                            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
                             
-                            Button {
-                                
-                                if isRunning {
-                                    timer?.invalidate()
-                                    timer = nil
-                                    isRunning = false
-                                    action = "is resting"
-                                } else {
-                                    isRunning = true
-                                    let formatter = DateFormatter()
-                                    formatter.dateFormat = "yyyy-MM-dd"
-                                    lastResetDate = formatter.string(from: Date())
-                                    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                                        elapsedSeconds += 1
-                                        elapsedSeconds2 += 1
-                                        action = "is studying"
-                                    }
-                                }
-                                if  TapDate == nil {
-                                    //Check if user has already tapped
-                                    self.ButtonTapped = true
-                                    streak += 1
-                                    self.TapDate = ("\(Date.getTomDate())")
-                                }
-                                else if ("\(Date.getTodayDate())") == TapDate {
-                                    //Check for the consecutive Day of Streak
-                                    
-                                    self.TapDate = ("\(Date.getTomDate())")
-                                    streak += 1
-                                    //Let's light the flame back again.
-                                    self.ButtonTapped = true
-                                }
-                            }
-                            label: {
-                                Image(systemName: isRunning ? "pause.fill" : "play.fill")
-                                    .font(.title)
-                            }
-                            .buttonStyle(.bordered)
-                            .tint(Color(red: 245/255, green: 182/255, blue: 120/255))
-                            
-                            Text(timeString(from: elapsedSeconds))
-                                .font(.system(size: 40, weight: .medium))
-                        }
-                        .onAppear {
-                            if ("\(Date.getTodayDate())") == TapDate ||
-                                ("\(Date.getTomDate())") == TapDate {
-                                self.ButtonTapped = true
-                            }
-                            //Breaking the Streak
-                            else {
-                                self.TapDate = nil
-                                self.ButtonTapped = false
-                                self.streak = 0
+                            if trimmed.isEmpty {
+                                name = defaultValue
+                            } else {
+                                defaultValue = name
                             }
                             
                         }
-                        .onChange(of: scenePhase) {
-                            if scenePhase == .background {
-                                if !isRunning && elapsedSeconds > 0 {
-                                    wasPausedBeforeBackground = true
-                                    appWasInBackground = true      // <--- NEW
-                                    userDefaults.set(true, forKey: "wasPaused")
-                                }
-                            }
-                            
-                            if scenePhase == .active {
-                                if appWasInBackground && wasPausedBeforeBackground {
-                                    showResumeAlert = true
-                                }
-                                
-                                // Reset flags AFTER alert logic
-                                wasPausedBeforeBackground = false
-                                appWasInBackground = false
-                                userDefaults.set(false, forKey: "wasPaused")
-                                
-                                resetIfNewDay()
-                            }
-                        }
-                        .onAppear {
-                            resetIfNewDay()
-                            let wasPaused = userDefaults.bool(forKey: "wasPaused")
-                            if wasPaused && !isRunning && elapsedSeconds > 0 {
-                                showResumeAlert = true
-                            }
-                        }
-                        .alert("Continue study session?", isPresented: $showResumeAlert) {
-                            Button("Continue") {
-                                startTimer()
-                            }
-                            Button("End Session", role: .destructive) {
-                                elapsedSeconds = 0
-                                isRunning = false
-                            }
-                        }
+                    }
                 }
-            }
-            .sheet(isPresented: $isSheetPresented) {
-                GoalTimeView(goalTime: $goalTime, isPresented: $isSheetPresented, goalTimeLeft: $goalTimeLeft)
-            }
-            .onAppear {
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd"   // only the date, no time
                 
-                let today = formatter.string(from: Date())
+                Text(action)
+                    .font(.title2)
                 
-                if lastSheetDate != today {
-                    // first time opening app today
-                    isSheetPresented = true
-                    lastSheetDate = today
+                // button to go to study goal time
+                NavigationLink(goalTimeLeft - elapsedSeconds2 <= 0 ? "Goal Time Finished!" : "Goal Time Left: \n  \(hours)h \(minutes)m \(seconds)s") {
+                    GoalsView(elapsedSeconds2: $elapsedSeconds2, goalTimeLeft: $goalTimeLeft, goalTime: $goalTime)
+                }
+                .font(.title2)
+                .bold()
+                .foregroundStyle(.orange)
+                .padding()
+                .background(.black.opacity(0.1))
+                .cornerRadius(30)
+                
+                // timer
+                HStack {
+                    
+                    Button {
+                        
+                        if isRunning {
+                            timer?.invalidate()
+                            timer = nil
+                            isRunning = false
+                            action = "is resting"
+                        } else {
+                            isRunning = true
+                            let formatter = DateFormatter()
+                            formatter.dateFormat = "yyyy-MM-dd"
+                            lastResetDate = formatter.string(from: Date())
+                            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                                elapsedSeconds += 1
+                                elapsedSeconds2 += 1
+                                action = "is studying"
+                            }
+                        }
+                        if  TapDate == nil {
+                            //Check if user has already tapped
+                            self.ButtonTapped = true
+                            streak += 1
+                            self.TapDate = ("\(Date.getTomDate())")
+                        }
+                        else if ("\(Date.getTodayDate())") == TapDate {
+                            //Check for the consecutive Day of Streak
+                            
+                            self.TapDate = ("\(Date.getTomDate())")
+                            streak += 1
+                            //Let's light the flame back again.
+                            self.ButtonTapped = true
+                        }
+                    }
+                    label: {
+                        Image(systemName: isRunning ? "pause.fill" : "play.fill")
+                            .font(.title)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(Color(red: 245/255, green: 182/255, blue: 120/255))
+                    
+                    Text(timeString(from: elapsedSeconds))
+                        .font(.system(size: 40, weight: .medium))
+                }
+                .onAppear {
+                    if ("\(Date.getTodayDate())") == TapDate ||
+                        ("\(Date.getTomDate())") == TapDate {
+                        self.ButtonTapped = true
+                    }
+                    //Breaking the Streak
+                    else {
+                        self.TapDate = nil
+                        self.ButtonTapped = false
+                        self.streak = 0
+                    }
+                    
+                }
+                .onChange(of: scenePhase) {
+                    if scenePhase == .background {
+                        if !isRunning && elapsedSeconds > 0 {
+                            wasPausedBeforeBackground = true
+                            appWasInBackground = true      // <--- NEW
+                            userDefaults.set(true, forKey: "wasPaused")
+                        }
+                    }
+                    
+                    if scenePhase == .active {
+                        if appWasInBackground && wasPausedBeforeBackground {
+                            showResumeAlert = true
+                        }
+                        
+                        // Reset flags AFTER alert logic
+                        wasPausedBeforeBackground = false
+                        appWasInBackground = false
+                        userDefaults.set(false, forKey: "wasPaused")
+                        
+                        resetIfNewDay()
+                    }
+                }
+                .onAppear {
+                    resetIfNewDay()
+                    let wasPaused = userDefaults.bool(forKey: "wasPaused")
+                    if wasPaused && !isRunning && elapsedSeconds > 0 {
+                        showResumeAlert = true
+                    }
+                }
+                .alert("Continue study session?", isPresented: $showResumeAlert) {
+                    Button("Continue") {
+                        startTimer()
+                    }
+                    Button("End Session", role: .destructive) {
+                        elapsedSeconds = 0
+                        isRunning = false
+                    }
                 }
             }
         }
+        .sheet(isPresented: $isSheetPresented) {
+            GoalTimeView(goalTime: $goalTime, isPresented: $isSheetPresented, goalTimeLeft: $goalTimeLeft)
+        }
+        .onAppear {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"   // only the date, no time
+            
+            let today = formatter.string(from: Date())
+            
+            if lastSheetDate != today {
+                // first time opening app today
+                isSheetPresented = true
+                lastSheetDate = today
+            }
+        }
     }
+    
     
     func quoteTimer() {
         isRunning = true
