@@ -69,38 +69,39 @@ struct GoalsView: View {
             .background(.black.opacity(0.1))
             .cornerRadius(30)
             .sheet(isPresented: $changeGoalTime , onDismiss: didDismiss){
+                VStack {
                     Text("Change your daily time goal:")
                         .font(.title)
                         .bold()
                         .padding()
-                HStack {
-                    VStack{
-                        Text("Hours")
-                            .font(.system(size:25))
-                            .bold()
-                        
-                        Picker("Hours", selection: $selectedHour)
-                        {
-                            ForEach (hours2, id: \.self) {
-                                Text(String(format:"%02d", $0))
+                    HStack {
+                        VStack{
+                            Text("Hours")
+                                .font(.system(size:25))
+                                .bold()
+                            
+                            Picker("Hours", selection: $selectedHour)
+                            {
+                                ForEach (hours2, id: \.self) {
+                                    Text(String(format:"%02d", $0))
+                                }
                             }
+                            .pickerStyle(.wheel)
                         }
-                        .pickerStyle(.wheel)
-                    }
-                    
-                    VStack{
-                        Text("Minutes")
-                            .font(.system(size:25))
-                            .bold()
                         
-                        Picker("Mintues", selection: $selectedMinute){
-                            ForEach(minutes2, id: \.self){
-                                Text(String(format: "%02d", $0))
+                        VStack{
+                            Text("Minutes")
+                                .font(.system(size:25))
+                                .bold()
+                            
+                            Picker("Mintues", selection: $selectedMinute){
+                                ForEach(minutes2, id: \.self){
+                                    Text(String(format: "%02d", $0))
+                                }
                             }
+                            .pickerStyle(.wheel)
                         }
-                        .pickerStyle(.wheel)
                     }
-                }
                     Button {
                         selectedTime()
                         isPresented2 = false
@@ -115,6 +116,13 @@ struct GoalsView: View {
                         }
                     }
                     .buttonStyle(.borderedProminent)
+                }
+                .onAppear {
+                        let total = goalTimeLeft
+                        selectedHour = total / 3600
+                        selectedMinute = (total % 3600) / 60
+                    }
+
             }
     }
     
