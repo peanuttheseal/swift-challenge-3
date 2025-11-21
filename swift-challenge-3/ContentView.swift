@@ -205,9 +205,10 @@ struct ContentView : View {
                                         }
                                         
                                     })
-                                    Color.orange
+                                    
                                 }
                                 .padding()
+                                .tint(.orange)
                                 .onDisappear{
                                     let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
                                     
