@@ -27,7 +27,7 @@ struct GoalTimeView: View {
                 .font(.title)
                 .padding()
             
-            Text("You can edit your goal in Goals Page.")
+            Text("You can edit this in Goals.")
                 .font(.title3)
                 .padding([.leading, .trailing], 50)
                 .padding(.bottom,20)
