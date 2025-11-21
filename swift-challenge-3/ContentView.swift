@@ -121,22 +121,6 @@ struct ContentView : View {
                     }
                     
                     ZStack {
-                        
-                        if goalTimeLeft - elapsedSeconds2 <= 0 {
-                            Image("ChickenPartyHat")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 70, height: 152)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                                .padding()
-                                .padding()
-                                .padding()
-                                .disabled(true)
-                                .allowsHitTesting(false)
-                                .opacity (isRunning ? 0 : 1)
-                        }
-                        
-                        
                         // chicken animation
                         // <- MODIFIED: when isStreakBroken is true, show ChickenCookedView
                         if isStreakBroken {
@@ -158,16 +142,29 @@ struct ContentView : View {
                                     .allowsHitTesting(false)
                             }
                             
+//                            if goalTimeLeft - elapsedSeconds2 <= 0 {
+//                                Image("ChickenPartyHat")
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .frame(width: 70, height: 152)
+//                                    .padding(.top,12)
+//                                    .disabled(true)
+//                                    .allowsHitTesting(false)
+//                                    .opacity (1)
+// 
+//                            }
                             if goalTimeLeft - elapsedSeconds2 <= 0 {
                                 Image("ChickenPartyHat")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 70, height: 152)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                                    .padding(.top,12)                                    .disabled(true)
+                                    .padding()
+                                    .padding()
+                                    .padding()
+                                    .disabled(true)
                                     .allowsHitTesting(false)
                                     .opacity (isRunning ? 0 : 1)
-                                
                             }
                         }
                     }
