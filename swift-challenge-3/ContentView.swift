@@ -194,7 +194,7 @@ struct ContentView : View {
                                                 }
                                             }
                                 }
-                                .navigationTitle("Change Chicken Name")
+                                .navigationTitle("Change Name")
                                 .toolbar {
                                     ToolbarItem(placement: .confirmationAction) {
                                         Button {
