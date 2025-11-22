@@ -21,6 +21,9 @@ struct ContentView : View {
     @AppStorage("isFirstTime") private var isFirstTime = true
     @AppStorage("lastResetDate", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
     private var lastResetDate: String = ""
+    @AppStorage("backgroundTimestamp", store: UserDefaults(suiteName: "group.sg.tk.2025.4pm"))
+    private var backgroundTimestamp: Double = 0
+
     
     @State private var appWasInBackground = false
     
@@ -190,6 +193,9 @@ struct ContentView : View {
                                             if newValue.count > characterLimit {
                                                 name = String(newValue.prefix(characterLimit))
                                             }
+                                        } label: {
+                                            Image(systemName: "checkmark")
+                                                .foregroundStyle(.black)
                                         }
                                 }
                             }
@@ -273,42 +279,42 @@ struct ContentView : View {
                 }
                 .onChange(of: scenePhase) {
                     if scenePhase == .background {
-                        if !isRunning && elapsedSeconds > 0 {
-                            wasPausedBeforeBackground = true
-                            appWasInBackground = true      // <--- NEW
-                            userDefaults.set(true, forKey: "wasPaused")
+                        if isRunning {
+                            backgroundTimestamp = Date().timeIntervalSince1970
                         }
                     }
-                    
+
                     if scenePhase == .active {
-                        if appWasInBackground && wasPausedBeforeBackground {
-                            showResumeAlert = true
+
+                        if isRunning && backgroundTimestamp > 0 {
+                            let now = Date().timeIntervalSince1970
+                            let diff = Int(now - backgroundTimestamp)
+
+                            elapsedSeconds += diff
+                            elapsedSeconds2 += diff
                         }
-                        
-                        // Reset flags AFTER alert logic
-                        wasPausedBeforeBackground = false
-                        appWasInBackground = false
-                        userDefaults.set(false, forKey: "wasPaused")
-                        
+
+                        backgroundTimestamp = 0
                         resetIfNewDay()
                     }
+
                 }
-                .onAppear {
-                    resetIfNewDay()
-                    let wasPaused = userDefaults.bool(forKey: "wasPaused")
-                    if wasPaused && !isRunning && elapsedSeconds > 0 {
-                        showResumeAlert = true
-                    }
-                }
-                .alert("Continue study session?", isPresented: $showResumeAlert) {
-                    Button("Continue") {
-                        startTimer()
-                    }
-                    Button("End Session", role: .destructive) {
-                        elapsedSeconds = 0
-                        isRunning = false
-                    }
-                }
+//                .onAppear {
+//                    resetIfNewDay()
+//                    let wasPaused = userDefaults.bool(forKey: "wasPaused")
+//                    if wasPaused && !isRunning && elapsedSeconds > 0 {
+//                        showResumeAlert = true
+//                    }
+//                }
+//                .alert("Continue study session?", isPresented: $showResumeAlert) {
+//                    Button("Continue") {
+//                        startTimer()
+//                    }
+//                    Button("End Session", role: .destructive) {
+//                        elapsedSeconds = 0
+//                        isRunning = false
+//                    }
+//                }
             }
         }
         .sheet(isPresented: $isSheetPresented) {
