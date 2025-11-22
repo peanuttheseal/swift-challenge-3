@@ -26,10 +26,6 @@ struct GoalTimeView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Set your daily time goal!")
-                    .font(.title)
-                    .padding()
-                
                 Text("You can edit this in Goals.")
                     .font(.title3)
                     .padding([.leading, .trailing], 50)

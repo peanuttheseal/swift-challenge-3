@@ -185,8 +185,6 @@ struct ContentView : View {
                         .sheet(isPresented: $changeName, onDismiss: didDismiss) {
                             NavigationStack {
                                 VStack {
-                                    Text("You can click the chicken's name to edit it again")
-                                    LabeledContent{
                                         TextField("New Name", text: $name)
                                             .textFieldStyle(.roundedBorder)
                                             .onChange(of: name) { newValue in
@@ -195,13 +193,25 @@ struct ContentView : View {
                                                     
                                                 }
                                             }
-                                    }
-                                    label: {
-                                        Image(systemName: "checkmark")
-                                            .foregroundStyle(.black)
-                                    }
-                                    
                                 }
+                                .navigationTitle("Change Chicken Name")
+                                .toolbar {
+                                    ToolbarItem(placement: .confirmationAction) {
+                                        Button {
+                                            isPresented = false
+                                            changeName.toggle()
+                                            if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                                showingAlert = true
+                                            }
+                                            else {
+                                                print("Input is not blank/empty")
+                                            }
+                                        } label: {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                                .padding()
                             }
                             
                         }
